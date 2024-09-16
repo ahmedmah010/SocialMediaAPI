@@ -1,0 +1,12 @@
+E:\SocialMediaAPI\SocialMediaAPI.Domain\bin\Debug\net8.0\SocialMediaAPI.Domain.deps.json
+E:\SocialMediaAPI\SocialMediaAPI.Domain\bin\Debug\net8.0\SocialMediaAPI.Domain.dll
+E:\SocialMediaAPI\SocialMediaAPI.Domain\bin\Debug\net8.0\SocialMediaAPI.Domain.pdb
+E:\SocialMediaAPI\SocialMediaAPI.Domain\obj\Debug\net8.0\SocialMediaAPI.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\SocialMediaAPI\SocialMediaAPI.Domain\obj\Debug\net8.0\SocialMediaAPI.Domain.AssemblyInfoInputs.cache
+E:\SocialMediaAPI\SocialMediaAPI.Domain\obj\Debug\net8.0\SocialMediaAPI.Domain.AssemblyInfo.cs
+E:\SocialMediaAPI\SocialMediaAPI.Domain\obj\Debug\net8.0\SocialMediaAPI.Domain.csproj.CoreCompileInputs.cache
+E:\SocialMediaAPI\SocialMediaAPI.Domain\obj\Debug\net8.0\SocialMediaAPI.Domain.dll
+E:\SocialMediaAPI\SocialMediaAPI.Domain\obj\Debug\net8.0\refint\SocialMediaAPI.Domain.dll
+E:\SocialMediaAPI\SocialMediaAPI.Domain\obj\Debug\net8.0\SocialMediaAPI.Domain.pdb
+E:\SocialMediaAPI\SocialMediaAPI.Domain\obj\Debug\net8.0\ref\SocialMediaAPI.Domain.dll
+E:\SocialMediaAPI\SocialMediaAPI.Domain\obj\Debug\net8.0\SocialMediaAPI.Domain.csproj.AssemblyReference.cache
