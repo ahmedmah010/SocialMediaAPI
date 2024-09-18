@@ -5,6 +5,7 @@ E:\SocialMediaAPI\SocialMediaAPI.Shared\obj\Debug\net8.0\SocialMediaAPI.Shared.G
 E:\SocialMediaAPI\SocialMediaAPI.Shared\obj\Debug\net8.0\SocialMediaAPI.Shared.AssemblyInfoInputs.cache
 E:\SocialMediaAPI\SocialMediaAPI.Shared\obj\Debug\net8.0\SocialMediaAPI.Shared.AssemblyInfo.cs
 E:\SocialMediaAPI\SocialMediaAPI.Shared\obj\Debug\net8.0\SocialMediaAPI.Shared.csproj.CoreCompileInputs.cache
+E:\SocialMediaAPI\SocialMediaAPI.Shared\obj\Debug\net8.0\SocialMediaAPI.Shared.sourcelink.json
 E:\SocialMediaAPI\SocialMediaAPI.Shared\obj\Debug\net8.0\SocialMediaAPI.Shared.dll
 E:\SocialMediaAPI\SocialMediaAPI.Shared\obj\Debug\net8.0\refint\SocialMediaAPI.Shared.dll
 E:\SocialMediaAPI\SocialMediaAPI.Shared\obj\Debug\net8.0\SocialMediaAPI.Shared.pdb
