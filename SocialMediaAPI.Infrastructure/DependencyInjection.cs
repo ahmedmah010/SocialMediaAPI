@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialMediaAPI.Domain.Entities;
+using SocialMediaAPI.Domain.Repositories.Base;
 using SocialMediaAPI.Infrastructure.Context;
+using SocialMediaAPI.Infrastructure.Repositories.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace SocialMediaAPI.Infrastructure
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default")));
             services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<AppDbContext>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             return services;
         }
     }

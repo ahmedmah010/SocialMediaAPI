@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SocialMediaAPI.Application.DTOs;
+using SocialMediaAPI.Application.Interfaces;
+using SocialMediaAPI.Application.Mappers;
+using SocialMediaAPI.Application.Services;
+using SocialMediaAPI.Application.Validators;
+using FluentValidation;
 
 namespace SocialMediaAPI.Application
 {
@@ -11,6 +19,9 @@ namespace SocialMediaAPI.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddScoped<IAccountService,AccountService>();
+            services.AddAutoMapper(typeof(MappingProfile));
+            services.AddValidatorsFromAssemblyContaining<UserRegisterValidator>();
             return services;
         }
     }

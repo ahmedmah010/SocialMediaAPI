@@ -149,3 +149,7 @@ E:\SocialMediaAPI\SocialMeidaAPI\obj\Debug\net8.0\refint\SocialMeidaAPI.dll
 E:\SocialMediaAPI\SocialMeidaAPI\obj\Debug\net8.0\SocialMeidaAPI.pdb
 E:\SocialMediaAPI\SocialMeidaAPI\obj\Debug\net8.0\SocialMeidaAPI.genruntimeconfig.cache
 E:\SocialMediaAPI\SocialMeidaAPI\obj\Debug\net8.0\ref\SocialMeidaAPI.dll
+E:\SocialMediaAPI\SocialMeidaAPI\bin\Debug\net8.0\AutoMapper.dll
+E:\SocialMediaAPI\SocialMeidaAPI\bin\Debug\net8.0\FluentValidation.dll
+E:\SocialMediaAPI\SocialMeidaAPI\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
+E:\SocialMediaAPI\SocialMeidaAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

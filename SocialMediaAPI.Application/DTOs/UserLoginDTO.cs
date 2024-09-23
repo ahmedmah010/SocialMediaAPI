@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SocialMediaAPI.Application.DTOs
 {
-    public class ResponseAPI
+    public class UserLoginDTO
     {
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public bool RememberMe { get; set; }
     }
 }
