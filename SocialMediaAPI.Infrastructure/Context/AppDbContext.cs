@@ -23,6 +23,9 @@ namespace SocialMediaAPI.Infrastructure.Context
         public DbSet<Comment> Comments { get; set; }
         public DbSet<PostReaction> PostReactions { get; set; }
         public DbSet<CommentReaction> CommentReactions { get; set; }
+        public DbSet<UserRelationship> UserRelationships { get; set; }
+        public DbSet<Education> Educations { get; set; }
+        public DbSet<WorkPlace> WorkPlaces { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

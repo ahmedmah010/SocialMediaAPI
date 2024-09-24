@@ -15,13 +15,13 @@ namespace SocialMediaAPI.Domain.Entities
         public string? CurrentCity { get; set; }
         public string? FromCity { get; set; }
         public DateTime? Birthdate { get; set; }
-        public RelationshipStatus? RelationshipStatus { get; set; }  
         public Gender? Gender { get; set; } 
-        public ICollection<string> Languages { get; set; } = new HashSet<string>();
-        public ICollection<string> Educations { get; set; } = new HashSet<string>();
-        public ICollection<string> WorkPlaces { get; set; } = new HashSet<string>();
 
         //Navigation Properties
         public virtual AppUser User { get; set; }
+        public virtual UserRelationship RelationshipAsRequester { get; set; }
+        public virtual UserRelationship RelationshipAsPartner { get; set; }
+        public virtual ICollection<WorkPlace> WorkPlaces { get; set; } = new HashSet<WorkPlace>();
+        public virtual ICollection<Education> Educations { get; set; } = new HashSet<Education>();
     }
 }

@@ -262,7 +262,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 9, 18, 14, 28, 29, 234, DateTimeKind.Local).AddTicks(2655));
+                        .HasDefaultValue(new DateTime(2024, 9, 24, 19, 30, 0, 34, DateTimeKind.Local).AddTicks(2929));
 
                     b.Property<string>("Media")
                         .IsRequired()
@@ -286,6 +286,34 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("SocialMediaAPI.Domain.Entities.Education", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SchoolName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("Educations");
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.FriendShip", b =>
@@ -318,7 +346,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 9, 18, 14, 28, 29, 237, DateTimeKind.Local).AddTicks(3312));
+                        .HasDefaultValue(new DateTime(2024, 9, 24, 19, 30, 0, 62, DateTimeKind.Local).AddTicks(3108));
 
                     b.Property<string>("Media")
                         .HasColumnType("nvarchar(max)");
@@ -379,7 +407,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 9, 18, 14, 28, 29, 242, DateTimeKind.Local).AddTicks(5888));
+                        .HasDefaultValue(new DateTime(2024, 9, 24, 19, 30, 0, 79, DateTimeKind.Local).AddTicks(8910));
 
                     b.Property<string>("Media")
                         .IsRequired()
@@ -406,7 +434,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.Property<DateTime>("ViewedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 9, 18, 14, 28, 29, 243, DateTimeKind.Local).AddTicks(817));
+                        .HasDefaultValue(new DateTime(2024, 9, 24, 19, 30, 0, 81, DateTimeKind.Local).AddTicks(5647));
 
                     b.HasKey("StoryId", "ViewerId");
 
@@ -429,30 +457,84 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.Property<string>("CurrentCity")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Educations")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FromCity")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<string>("Languages")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RelationshipStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WorkPlaces")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Profiles");
+                });
+
+            modelBuilder.Entity("SocialMediaAPI.Domain.Entities.UserRelationship", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("EndDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PartnerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequesterId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StartDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartnerId")
+                        .IsUnique();
+
+                    b.HasIndex("RequesterId")
+                        .IsUnique();
+
+                    b.ToTable("UserRelationships");
+                });
+
+            modelBuilder.Entity("SocialMediaAPI.Domain.Entities.WorkPlace", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("WorkPlaces");
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.CommentReaction", b =>
@@ -556,6 +638,17 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SocialMediaAPI.Domain.Entities.Education", b =>
+                {
+                    b.HasOne("SocialMediaAPI.Domain.Entities.UserProfile", "Profile")
+                        .WithMany("Educations")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Profile");
+                });
+
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.FriendShip", b =>
                 {
                     b.HasOne("SocialMediaAPI.Domain.Entities.AppUser", "Friend")
@@ -638,6 +731,36 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SocialMediaAPI.Domain.Entities.UserRelationship", b =>
+                {
+                    b.HasOne("SocialMediaAPI.Domain.Entities.UserProfile", "Partner")
+                        .WithOne("RelationshipAsPartner")
+                        .HasForeignKey("SocialMediaAPI.Domain.Entities.UserRelationship", "PartnerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SocialMediaAPI.Domain.Entities.UserProfile", "Requester")
+                        .WithOne("RelationshipAsRequester")
+                        .HasForeignKey("SocialMediaAPI.Domain.Entities.UserRelationship", "RequesterId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Partner");
+
+                    b.Navigation("Requester");
+                });
+
+            modelBuilder.Entity("SocialMediaAPI.Domain.Entities.WorkPlace", b =>
+                {
+                    b.HasOne("SocialMediaAPI.Domain.Entities.UserProfile", "Profile")
+                        .WithMany("WorkPlaces")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Profile");
+                });
+
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.CommentReaction", b =>
                 {
                     b.HasOne("SocialMediaAPI.Domain.Entities.Comment", "Comment")
@@ -691,6 +814,19 @@ namespace SocialMediaAPI.Infrastructure.Migrations
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.Story", b =>
                 {
                     b.Navigation("Viewers");
+                });
+
+            modelBuilder.Entity("SocialMediaAPI.Domain.Entities.UserProfile", b =>
+                {
+                    b.Navigation("Educations");
+
+                    b.Navigation("RelationshipAsPartner")
+                        .IsRequired();
+
+                    b.Navigation("RelationshipAsRequester")
+                        .IsRequired();
+
+                    b.Navigation("WorkPlaces");
                 });
 #pragma warning restore 612, 618
         }
