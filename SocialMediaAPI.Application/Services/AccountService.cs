@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SocialMediaAPI.Application.DTOs;
 using SocialMediaAPI.Application.DTOs.Response;
-using SocialMediaAPI.Application.Interfaces;
+using SocialMediaAPI.Application.Interfaces.Services;
 using SocialMediaAPI.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SocialMediaAPI.Application.Services
 {
@@ -25,13 +26,15 @@ namespace SocialMediaAPI.Application.Services
         private readonly IConfiguration _configuration;
         private readonly IValidator<UserRegisterDTO> _userRegisterDtoValidator;
         private readonly IValidator<UserLoginDTO> _userLoginDtoValidator;
+        private readonly IResponseService _responseService;
         private readonly JwtDTO _jwt;
         public AccountService(UserManager<AppUser> userManager,
             IMapper mapper,
             IConfiguration configuration,
             IOptions<JwtDTO> jwt,
             IValidator<UserRegisterDTO> userRegisterDtoValidator,
-            IValidator<UserLoginDTO> userLoginDtoValidator)
+            IValidator<UserLoginDTO> userLoginDtoValidator,
+            IResponseService responseService)
         {
             _userManager = userManager;
             _mapper = mapper;
@@ -39,6 +42,7 @@ namespace SocialMediaAPI.Application.Services
             _jwt = jwt.Value;
             _userRegisterDtoValidator = userRegisterDtoValidator;
             _userLoginDtoValidator = userLoginDtoValidator;
+            _responseService = responseService;
         }
 
         private async Task<JwtSecurityToken> CreateJwtAsync(AppUser user, bool RememberMe)
@@ -58,48 +62,48 @@ namespace SocialMediaAPI.Application.Services
             );
             return jwt;
         }
-
-        public async Task<ResponseDTO<string>> RegisterAsync(UserRegisterDTO userRegisterationForm)
+        private async Task<bool> CheckUsernameExistsAsync(string username)
         {
-            ResponseDTO<string> response = new ResponseDTO<string>();
+            AppUser user = await _userManager.FindByNameAsync(username);
+            return user is not null ? true : false;
+        }
+
+        public async Task<ResponseDTO> RegisterAsync(UserRegisterDTO userRegisterationForm)
+        {
+            ResponseDTO response = new ResponseDTO();
             var validationResult = await _userRegisterDtoValidator.ValidateAsync(userRegisterationForm);
             if (!validationResult.IsValid)
             {
-                foreach(var error in validationResult.Errors)
-                {
-                    response.Errors.Add(error.ErrorMessage);
-                }
+                response = await _responseService.GenerateErrorResponseAsync(validationResult.Errors.Select(error => error.ErrorMessage));
+            }
+            else if(await CheckUsernameExistsAsync(userRegisterationForm.Username))
+            {
+                response = await _responseService.GenerateErrorResponseAsync("Username exists");
             }
             else
-            {
+            { 
                 AppUser newUser = _mapper.Map<AppUser>(userRegisterationForm);
                 IdentityResult result = await _userManager.CreateAsync(newUser, userRegisterationForm.Password);
                 if (result.Succeeded)
                 {
-                    response.Success = true;
-                    response.Message = "Successful Registeration";
+                    response = await _responseService.GenerateSuccessResponseAsync();
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        response.Errors.Add(error.Description);
-                    }
+                    response = await _responseService.GenerateErrorResponseAsync(result.Errors.Select(error => error.Description));
                 }
             }
+            response.Message = response.Success ? "Successful Registeration" : "Unsuccessful Registeration";
             return response;
         }
 
-        public async Task<ResponseDTO<string>> LoginAsync(UserLoginDTO userLoginForm)
+        public async Task<ResponseDTO> LoginAsync(UserLoginDTO userLoginForm)
         {
-            ResponseDTO<string> response = new ResponseDTO<string>();
+            ResponseDTO response;
             var validationResult = await _userLoginDtoValidator.ValidateAsync(userLoginForm);
             if (!validationResult.IsValid)
             {
-                foreach(var error in validationResult.Errors)
-                {
-                    response.Errors.Add(error.ErrorMessage);
-                }
+                response = await _responseService.GenerateErrorResponseAsync(validationResult.Errors.Select(error => error.ErrorMessage));
             }
             else
             {
@@ -109,56 +113,49 @@ namespace SocialMediaAPI.Application.Services
                     if (await _userManager.CheckPasswordAsync(user, userLoginForm.Password))
                     {
                         JwtSecurityToken jwt = await CreateJwtAsync(user,userLoginForm.RememberMe);
-                        response.Success = true;
-                        response.Message = "Successful Login";
-                        response.Data = new JwtSecurityTokenHandler().WriteToken(jwt);
+                        JwtTokenResponseDTO data = new JwtTokenResponseDTO { Token = new JwtSecurityTokenHandler().WriteToken(jwt), Expire = jwt.ValidTo };
+                        response = await _responseService.GenerateSuccessResponseAsync(data:data);
                     }
                     else
                     {
-                        response.Message = "Unsuccessful Login";
-                        response.Errors.Add("Wrong password");
+                        response = await _responseService.GenerateErrorResponseAsync("Wrong password");
                     }
                 }
                 else
                 {
-                    response.Message = "Unsuccessful Login";
-                    response.Errors.Add("Username doesn't exist");
+                    response = await _responseService.GenerateErrorResponseAsync("Username doesn't exist");
                 }
             }
+            response.Message = response.Success ? "Successful Login" : "Unsuccessful Login";
             return response;
         }
 
-        public Task<ResponseDTO<string>> LogoutAsync()
+        public Task<ResponseDTO> ChangeEmailAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseDTO<string>> ChangeEmailAsync()
+        public Task<ResponseDTO> ChangePasswordAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseDTO<string>> ChangePasswordAsync()
+        public Task<ResponseDTO> ConfirmEmailAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseDTO<string>> ConfirmEmailAsync()
+        public Task<ResponseDTO> GoogleRegisterAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseDTO<string>> GoogleRegisterAsync()
+        public Task<ResponseDTO> ResetPasswordAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseDTO<string>> ResetPasswordAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ResponseDTO<string>> SendOtpAsync()
+        public Task<ResponseDTO> SendOtpAsync()
         {
             throw new NotImplementedException();
         }

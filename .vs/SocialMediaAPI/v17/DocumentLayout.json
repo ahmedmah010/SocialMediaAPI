@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "E:\\SocialMediaAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|e:\\socialmediaapi\\socialmediaapi.application\\interfaces\\services\\iprofileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|solutionrelative:socialmediaapi.application\\interfaces\\services\\iprofileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F26EFAFE-7DE9-4935-BBD3-57F642B04F47}|SocialMediaAPI.Domain\\SocialMediaAPI.Domain.csproj|e:\\socialmediaapi\\socialmediaapi.domain\\entities\\userprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F26EFAFE-7DE9-4935-BBD3-57F642B04F47}|SocialMediaAPI.Domain\\SocialMediaAPI.Domain.csproj|solutionrelative:socialmediaapi.domain\\entities\\userprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|e:\\socialmediaapi\\socialmediaapi.application\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|solutionrelative:socialmediaapi.application\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|e:\\socialmediaapi\\socialmediaapi.application\\validators\\userregistervalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|solutionrelative:socialmediaapi.application\\validators\\userregistervalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|e:\\socialmediaapi\\socialmediaapi.application\\interfaces\\iaccountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|solutionrelative:socialmediaapi.application\\interfaces\\iaccountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{90B2E547-CFA0-492E-B267-B711CA664629}|SocialMeidaAPI\\SocialMeidaAPI.csproj|e:\\socialmediaapi\\socialmeidaapi\\controllers\\userauthcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90B2E547-CFA0-492E-B267-B711CA664629}|SocialMeidaAPI\\SocialMeidaAPI.csproj|solutionrelative:socialmeidaapi\\controllers\\userauthcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,43 +26,56 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UserRegisterValidator.cs",
-              "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Validators\\UserRegisterValidator.cs",
-              "RelativeDocumentMoniker": "SocialMediaAPI.Application\\Validators\\UserRegisterValidator.cs",
-              "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Validators\\UserRegisterValidator.cs",
-              "RelativeToolTip": "SocialMediaAPI.Application\\Validators\\UserRegisterValidator.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAABOAAAA",
+              "Title": "UserProfile.cs",
+              "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Domain\\Entities\\UserProfile.cs",
+              "RelativeDocumentMoniker": "SocialMediaAPI.Domain\\Entities\\UserProfile.cs",
+              "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Domain\\Entities\\UserProfile.cs",
+              "RelativeToolTip": "SocialMediaAPI.Domain\\Entities\\UserProfile.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABEAAAA1AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T00:29:25.883Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "IAccountService.cs",
-              "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Interfaces\\IAccountService.cs",
-              "RelativeDocumentMoniker": "SocialMediaAPI.Application\\Interfaces\\IAccountService.cs",
-              "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Interfaces\\IAccountService.cs",
-              "RelativeToolTip": "SocialMediaAPI.Application\\Interfaces\\IAccountService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-22T21:24:25.54Z",
+              "WhenOpened": "2024-09-24T00:12:45.437Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "IProfileService.cs",
+              "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Interfaces\\Services\\IProfileService.cs",
+              "RelativeDocumentMoniker": "SocialMediaAPI.Application\\Interfaces\\Services\\IProfileService.cs",
+              "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Interfaces\\Services\\IProfileService.cs",
+              "RelativeToolTip": "SocialMediaAPI.Application\\Interfaces\\Services\\IProfileService.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABcAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T00:05:35.984Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserAuthController.cs",
+              "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMeidaAPI\\Controllers\\UserAuthController.cs",
+              "RelativeDocumentMoniker": "SocialMeidaAPI\\Controllers\\UserAuthController.cs",
+              "ToolTip": "E:\\SocialMediaAPI\\SocialMeidaAPI\\Controllers\\UserAuthController.cs",
+              "RelativeToolTip": "SocialMeidaAPI\\Controllers\\UserAuthController.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAUwBkAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-23T22:58:30.117Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "AccountService.cs",
               "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Services\\AccountService.cs",
               "RelativeDocumentMoniker": "SocialMediaAPI.Application\\Services\\AccountService.cs",
               "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Services\\AccountService.cs",
               "RelativeToolTip": "SocialMediaAPI.Application\\Services\\AccountService.cs",
-              "ViewState": "AQIAACYAAAAAAAAAAAAIwG4AAABhAAAA",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAAEAAAAAPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-22T18:37:29.246Z",
               "EditorCaption": ""

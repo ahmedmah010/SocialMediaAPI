@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaAPI.Application.DTOs;
 using SocialMediaAPI.Application.DTOs.Response;
-using SocialMediaAPI.Application.Interfaces;
+using SocialMediaAPI.Application.Interfaces.Services;
 
 namespace SocialMeidaAPI.Controllers
 {
@@ -18,13 +18,13 @@ namespace SocialMeidaAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDTO userRegisterationForm)
         {
-            ResponseDTO<string> response = await _accountService.RegisterAsync(userRegisterationForm);
+            ResponseDTO response = await _accountService.RegisterAsync(userRegisterationForm);
             return response.Success ? Ok(response) : BadRequest(response);
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDTO userLoginForm)
         {
-            ResponseDTO<string> response = await _accountService.LoginAsync(userLoginForm);
+            ResponseDTO response = await _accountService.LoginAsync(userLoginForm);
             return response.Success ? Ok(response) : BadRequest(response);
         }
     }

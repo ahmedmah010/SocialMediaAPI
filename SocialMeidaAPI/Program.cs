@@ -28,7 +28,7 @@ builder.Services.AddAuthentication(opt =>
     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(opt =>
 {
-    opt.SaveToken = false;
+    opt.SaveToken = true;
     opt.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuer = true,

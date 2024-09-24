@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialMediaAPI.Application.DTOs;
-using SocialMediaAPI.Application.Interfaces;
 using SocialMediaAPI.Application.Mappers;
 using SocialMediaAPI.Application.Services;
 using SocialMediaAPI.Application.Validators;
 using FluentValidation;
+using SocialMediaAPI.Application.Interfaces.Services;
 
 namespace SocialMediaAPI.Application
 {
@@ -20,6 +20,7 @@ namespace SocialMediaAPI.Application
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IAccountService,AccountService>();
+            services.AddScoped<IResponseService,ResponseService>();
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddValidatorsFromAssemblyContaining<UserRegisterValidator>();
             return services;
