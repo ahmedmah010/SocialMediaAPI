@@ -1,4 +1,6 @@
 ﻿using SocialMediaAPI.Application.DTOs.Response;
+using SocialMediaAPI.Domain.Entities;
+using SocialMediaAPI.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +22,13 @@ namespace SocialMediaAPI.Application.Interfaces.Services
         Task<ResponseDTO> RemoveFromCityAsync();
         Task<ResponseDTO> UpdateBirthDateAsync(DateTime date);
         Task<ResponseDTO> RemoveBirthDateAsync();
-        Task<ResponseDTO> UpdateGenderAsync(string gender);
+        Task<ResponseDTO> UpdateGenderAsync(Gender gender);
         Task<ResponseDTO> RemoveGenderAsync();
-        //Task<ResponseDTO> UpdateRelationship(string relationship); //Edit it so you can add someone in the RP 
-        //Task<ResponseDTO> UpdateEducation(string education); education, languages, workplaces need a speparate table.
-        Task<ResponseDTO> GetFriendsAsync(int size, int pageNo);
-        Task GetPostsAsync(); // same as above
-        Task<ResponseDTO> RemoveFriendAsync(string friendUsername); //May be added to another service (Friendship) or a repo like above
+        Task<ResponseDTO> UpdateEducationAsync(Education education);
+        Task<ResponseDTO> RemmoveEducationAsync(int id);
+        Task<ResponseDTO> UpdateWorkPlaceAsync(WorkPlace workplace);
+        Task<ResponseDTO> RemmoveWorkPlaceAsync(int id);
+        Task<ResponseDTO> UpdateRelationship(UserRelationship relationship); 
+        Task<ResponseDTO> RemoveRelationship(); 
     }
 }

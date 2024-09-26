@@ -14,7 +14,6 @@ namespace SocialMediaAPI.Infrastructure.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Story> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.Property(e => e.Date).HasDefaultValue(DateTime.Now);
             builder
                 .HasOne(s => s.User)
                 .WithMany(u => u.Stories)

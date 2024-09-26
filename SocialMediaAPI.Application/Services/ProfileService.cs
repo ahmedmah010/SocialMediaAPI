@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using SocialMediaAPI.Application.DTOs.Response;
 using SocialMediaAPI.Application.Interfaces.Services;
 using SocialMediaAPI.Domain.Entities;
+using SocialMediaAPI.Domain.Enums;
 using SocialMediaAPI.Domain.Repositories.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,120 +18,189 @@ namespace SocialMediaAPI.Application.Services
     public class ProfileService : IProfileService
     {
         private readonly IRepository<UserProfile> _userProfileRepo;
-        private readonly IRepository<AppUser> _appUserRepo;
+        private readonly IRepository<WorkPlace> _workplaceRepo;
+        private readonly IRepository<Education> _educationRepo;
         private readonly IResponseService _responseService;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ICurrentUserService _currentUserService;
+
         public ProfileService(IRepository<UserProfile> userProfileRepo,
-            IRepository<AppUser> appUserRepo,
-            UserManager<AppUser> userManager,
-            IHttpContextAccessor httpContextAccessor,
-            IResponseService responseService)
+            IResponseService responseService,
+            ICurrentUserService currentUserService,
+            IRepository<WorkPlace> workplaceRepo,
+            IRepository<Education> educationRepo)
         {
             _userProfileRepo = userProfileRepo;
-            _appUserRepo = appUserRepo;
-            _userManager = userManager;
-            _httpContextAccessor = httpContextAccessor;
             _responseService = responseService;
-        }
-
-        private ClaimsPrincipal? GetCurrentUserClaims()
-        {
-            return _httpContextAccessor.HttpContext?.User;
-        }
-        private string? GetCurrentUserUsername()
-        {
-            return GetCurrentUserClaims()?.Identity?.Name;
-        }
-        public async Task<ResponseDTO> GetFriendsAsync(int size, int pageNo)
-        {
-            ResponseDTO response;
-            AppUser currentUser = await _appUserRepo.QueryBuilder().Where(u => u.UserName == GetCurrentUserUsername()).Include(user => user.Friends).Take(size).Skip(pageNo).FirstOrDefaultAsync();
-            if (currentUser != null)
-            {
-                response = await _responseService.GenerateSuccessResponseAsync(data: currentUser.Friends);
-            }
-            else
-            {
-                response = await _responseService.GenerateErrorResponseAsync("Invalid user");
-            }
-            return response;
-        }
-
-        public Task GetPostsAsync()
-        {
-            throw new NotImplementedException();
+            _currentUserService = currentUserService;
+            _workplaceRepo = workplaceRepo;
+            _educationRepo = educationRepo;
         }
 
         public Task<ResponseDTO> GetProfileInfoAsync(string username)
         {
-            //Profile Photo, friends, posts, location, relationship status, workplaces, education.
+            //Profile Photo, friends, posts, location, relationship status, workplaces, education, gender, birthdate, bio.
             
             throw new NotImplementedException();
         }
 
-        public Task<ResponseDTO> RemoveBioAsync()
+        public async Task<ResponseDTO> RemmoveEducationAsync(int id)
         {
-            throw new NotImplementedException();
+            Education education = await _educationRepo.GetByIdAsync(id);
+            if (education != null)
+            {
+                int currentUserProfileId = await _currentUserService.GetCurrentUserIdAsync();
+                if (education.ProfileId == currentUserProfileId)
+                {
+                    _educationRepo.Remove(education);
+                    await _educationRepo.SaveChangesAsync();
+                    return await _responseService.GenerateSuccessResponseAsync("education removed");
+                }
+                return await _responseService.GenerateErrorResponseAsync("Invalid operation");
+            }
+            return await _responseService.GenerateErrorResponseAsync("education not found");
         }
 
-        public Task<ResponseDTO> RemoveBirthDateAsync()
+        public async Task<ResponseDTO> RemoveBioAsync()
         {
-            throw new NotImplementedException();
+            UserProfile currentUserProfile = await _currentUserService.GetCurrentUserProfileAsync();
+            currentUserProfile.Bio = null;
+            return await _responseService.GenerateSuccessResponseAsync("Bio removed");
         }
 
-        public Task<ResponseDTO> RemoveCurrentCityAsync()
+        public async Task<ResponseDTO> RemoveCurrentCityAsync()
         {
-            throw new NotImplementedException();
+            UserProfile currentUserProfile = await _currentUserService.GetCurrentUserProfileAsync();
+            currentUserProfile.CurrentCity = null;
+            return await _responseService.GenerateSuccessResponseAsync("Current city removed");
         }
 
-        public Task<ResponseDTO> RemoveFriendAsync(string friendUsername)
+        public async Task<ResponseDTO> RemoveFromCityAsync()
         {
-            //will be moved to a FriendService
-            throw new NotImplementedException();
+            UserProfile currentUserProfile = await _currentUserService.GetCurrentUserProfileAsync();
+            currentUserProfile.FromCity = null;
+            return await _responseService.GenerateSuccessResponseAsync("From city removed");
         }
 
-        public Task<ResponseDTO> RemoveFromCityAsync()
+        public async Task<ResponseDTO> UpdateBioAsync(string bio)
         {
-            throw new NotImplementedException();
+            UserProfile currentUserProfile = await _currentUserService.GetCurrentUserProfileAsync();
+            currentUserProfile.Bio = bio;
+            return await _responseService.GenerateSuccessResponseAsync("Bio updated");
         }
 
+        public async Task<ResponseDTO> UpdateBirthDateAsync(DateTime date)
+        {
+            UserProfile currentUserProfile = await _currentUserService.GetCurrentUserProfileAsync();
+            currentUserProfile.Birthdate = date;
+            return await _responseService.GenerateSuccessResponseAsync("Birthdate updated");
+        }
+
+        public async Task<ResponseDTO> UpdateEducationAsync(Education education)
+        {
+            UserProfile currentUserProfile = await _currentUserService.GetCurrentUserProfileAsync(profile => profile.Educations);
+            if (currentUserProfile != null)
+            {
+                // There should be IValidator for education
+                education.ProfileId = currentUserProfile.Id; // To explicitly ensure that this will be added/updated for this current user, and remove the overhead of passing the current user profile id from the frontend 
+                ResponseDTO response = await _responseService.GenerateSuccessResponseAsync();
+                if (education.Id == 0)
+                {
+                    await _educationRepo.AddAsync(education);
+                    response.Message = "Added new education";
+                }
+                else
+                {
+                    await _educationRepo.UpdateAsync(education);
+                    response.Message = "Updated education";
+                }
+                await _userProfileRepo.SaveChangesAsync();
+                return response;
+            }
+            return await _responseService.GenerateErrorResponseAsync("User not found");
+        }
+        public async Task<ResponseDTO> UpdateCurrentCityAsync(string city)
+        {
+            UserProfile currentUserProfile = await _currentUserService.GetCurrentUserProfileAsync();
+            currentUserProfile.CurrentCity = city;
+            return await _responseService.GenerateSuccessResponseAsync("Current city updated");
+        }
+        public async Task<ResponseDTO> UpdateFromCityAsync(string city)
+        {
+            UserProfile currentUserProfile = await _currentUserService.GetCurrentUserProfileAsync();
+            currentUserProfile.FromCity = city;
+            return await _responseService.GenerateSuccessResponseAsync("From city updated");
+        }
+
+        public async Task<ResponseDTO> UpdateGenderAsync(Gender gender)
+        {
+            UserProfile currentUserProfile = await _currentUserService.GetCurrentUserProfileAsync();
+            currentUserProfile.Gender = gender;
+            return await _responseService.GenerateSuccessResponseAsync("Gender updated");
+        }
+        public async Task<ResponseDTO> RemmoveWorkPlaceAsync(int id)
+        {
+            WorkPlace workplace = await _workplaceRepo.GetByIdAsync(id);
+            if(workplace != null)
+            {
+                int currentUserProfileId = await _currentUserService.GetCurrentUserIdAsync();
+                if(workplace.ProfileId == currentUserProfileId)
+                {
+                    _workplaceRepo.Remove(workplace);
+                    await _workplaceRepo.SaveChangesAsync();
+                    return await _responseService.GenerateSuccessResponseAsync("workplace removed");
+                }
+                return await _responseService.GenerateErrorResponseAsync("Invalid operation");
+            }
+            return await _responseService.GenerateErrorResponseAsync("workplace not found");
+        }
+
+        public async Task<ResponseDTO> UpdateWorkPlaceAsync(WorkPlace workplace)
+        {
+            UserProfile currentUserProfile = await _currentUserService.GetCurrentUserProfileAsync(profile=>profile.WorkPlaces);
+            if (currentUserProfile != null)
+            {
+                // There should be IValidator for workplace
+                workplace.ProfileId = currentUserProfile.Id; // To explicitly ensure that this will be added/updated for this current user, and remove the overhead of passing the current user profile id from the frontend 
+                ResponseDTO response = await _responseService.GenerateSuccessResponseAsync();
+                if (workplace.Id == 0)
+                {
+                    await _workplaceRepo.AddAsync(workplace);
+                    response.Message = "Added new workplace";
+                }
+                else
+                {
+                    await _workplaceRepo.UpdateAsync(workplace);
+                    response.Message = "Updated workplace";
+                }
+                await _userProfileRepo.SaveChangesAsync();
+                return response;
+            }
+            return await _responseService.GenerateErrorResponseAsync("User not found");
+        }
+        public async Task<ResponseDTO> RemoveBirthDateAsync()
+        {
+            UserProfile currentUserProfile = await _currentUserService.GetCurrentUserProfileAsync();
+            currentUserProfile.Birthdate = null;
+            return await _responseService.GenerateSuccessResponseAsync("Birthdate removed");
+        }
         public Task<ResponseDTO> RemoveGenderAsync()
         {
             throw new NotImplementedException();
         }
 
+        public Task<ResponseDTO> UpdateProfilePictureAsync(string picture)
+        {
+            throw new NotImplementedException();
+        }
         public Task<ResponseDTO> RemoveProfilePictureAsync()
         {
             throw new NotImplementedException();
         }
-
-        public Task<ResponseDTO> UpdateBioAsync(string bio)
+        public Task<ResponseDTO> RemoveRelationship()
         {
             throw new NotImplementedException();
         }
-
-        public Task<ResponseDTO> UpdateBirthDateAsync(DateTime date)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ResponseDTO> UpdateCurrentCityAsync(string city)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ResponseDTO> UpdateFromCityAsync(string city)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ResponseDTO> UpdateGenderAsync(string gender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ResponseDTO> UpdateProfilePictureAsync(string picture)
+        public Task<ResponseDTO> UpdateRelationship(UserRelationship relationship)
         {
             throw new NotImplementedException();
         }

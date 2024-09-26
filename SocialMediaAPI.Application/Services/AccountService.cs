@@ -8,6 +8,7 @@ using SocialMediaAPI.Application.DTOs;
 using SocialMediaAPI.Application.DTOs.Response;
 using SocialMediaAPI.Application.Interfaces.Services;
 using SocialMediaAPI.Domain.Entities;
+using SocialMediaAPI.Domain.Repositories.Base;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -27,6 +28,7 @@ namespace SocialMediaAPI.Application.Services
         private readonly IValidator<UserRegisterDTO> _userRegisterDtoValidator;
         private readonly IValidator<UserLoginDTO> _userLoginDtoValidator;
         private readonly IResponseService _responseService;
+        private readonly IRepository<UserProfile> _userProfileRepo;
         private readonly JwtDTO _jwt;
         public AccountService(UserManager<AppUser> userManager,
             IMapper mapper,
@@ -34,7 +36,8 @@ namespace SocialMediaAPI.Application.Services
             IOptions<JwtDTO> jwt,
             IValidator<UserRegisterDTO> userRegisterDtoValidator,
             IValidator<UserLoginDTO> userLoginDtoValidator,
-            IResponseService responseService)
+            IResponseService responseService,
+            IRepository<UserProfile> userProfileRepo)
         {
             _userManager = userManager;
             _mapper = mapper;
@@ -43,6 +46,7 @@ namespace SocialMediaAPI.Application.Services
             _userRegisterDtoValidator = userRegisterDtoValidator;
             _userLoginDtoValidator = userLoginDtoValidator;
             _responseService = responseService;
+            _userProfileRepo = userProfileRepo;
         }
 
         private async Task<JwtSecurityToken> CreateJwtAsync(AppUser user, bool RememberMe)
@@ -86,6 +90,9 @@ namespace SocialMediaAPI.Application.Services
                 IdentityResult result = await _userManager.CreateAsync(newUser, userRegisterationForm.Password);
                 if (result.Succeeded)
                 {
+                    UserProfile newUserProfile = new UserProfile() { User = newUser, Id = newUser.Id};
+                    await _userProfileRepo.AddAsync(newUserProfile);
+                    await _userProfileRepo.SaveChangesAsync();
                     response = await _responseService.GenerateSuccessResponseAsync();
                 }
                 else

@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 
 namespace SocialMediaAPI.Infrastructure.Repositories.Base
 {
+    // NOT USED - IT WAS IMPLEMENTED FOR LEARNING PURPOSES
     public class QueryBuilder<T> : IQueryBuilder<T> where T : class
     {
         private IQueryable<T> _query;
-        public QueryBuilder(IQueryable<T> dbSet)
+        public QueryBuilder(IQueryable<T> query)
         {
-            _query = dbSet;
+            _query = query;
         }
         public IQueryBuilder<T> Where(Expression<Func<T, bool>> predicate)
         {
@@ -57,11 +58,11 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
         {
             return await _query.AnyAsync();
         }
-        public async Task<bool> AnyAsync(Expression<Func<T,bool>> predicate)
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
         {
             return await _query.AnyAsync(predicate);
         }
-        public async Task<bool> AllAsync(Expression<Func<T,bool>> predicate)
+        public async Task<bool> AllAsync(Expression<Func<T, bool>> predicate)
         {
             return await _query.AllAsync(predicate);
         }

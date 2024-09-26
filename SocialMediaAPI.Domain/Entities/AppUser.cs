@@ -23,5 +23,7 @@ namespace SocialMediaAPI.Domain.Entities
         public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
         public virtual ICollection<Story> Stories { get; set; } = new HashSet<Story>();
         public virtual ICollection<FriendShip> Friends { get; set; } = new HashSet<FriendShip>();
+        public virtual ICollection<FriendRequest> ReceivedFriendRequests { get; set; }
+        public virtual ICollection<FriendRequest> SentFriendRequests { get; set; }
     }
 }

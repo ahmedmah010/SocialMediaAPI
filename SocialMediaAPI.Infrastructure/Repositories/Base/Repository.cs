@@ -15,13 +15,38 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly AppDbContext _context;
+        private IQueryable<T> _query;
         public Repository(AppDbContext context)
         {
             _context = context;
+            _query = _context.Set<T>();
         }
-        public IQueryBuilder<T> QueryBuilder()
+        // NOT USED
+        //public IQueryBuilder<T> QueryBuilder()
+        //{
+        //    return new QueryBuilder<T>(_context.Set<T>());
+        //}
+
+        public IRepository<T> Where(Expression<Func<T, bool>> predicate)
         {
-            return new QueryBuilder<T>(_context.Set<T>());
+            _query = _query.Where(predicate);
+            return this;
+        }
+        public IRepository<T> Include(Expression<Func<T, object>> navigationProperty)
+        {
+            _query = _query.Include(navigationProperty);
+            return this;
+        }
+        public IRepository<T> Skip(int count)
+        {
+            _query = _query.Skip(count);
+            return this;
+        }
+
+        public IRepository<T> Take(int count)
+        {
+            _query = _query.Take(count);
+            return this;
         }
         public async Task<T> FindWithIncludesAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
         {
@@ -31,18 +56,6 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
                 query = query.Include(include);
             }
             return await query.FirstOrDefaultAsync();
-        }
-        public async Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> predicate)
-        {
-            return await _context.Set<T>().Where(predicate).ToListAsync();
-        }
-        public async Task<IEnumerable<T>> IncludeAsync(Expression<Func<T, object>> navigationProperty)
-        {
-            return await _context.Set<T>().Include(navigationProperty).ToListAsync();
-        }
-        public async Task<IEnumerable<T>> PaginateAsync(int size, int pageNo)
-        {
-            return await _context.Set<T>().Take(size).Skip((pageNo-1)*size).ToListAsync();
         }
         public async Task<IEnumerable<T>> GetAll()
         {
@@ -60,7 +73,7 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
         {
             return await _context.Set<T>().CountAsync();
         }
-        public async Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> RemoveByIdAsync(int id)
         {
             T entity = await GetByIdAsync(id);
             if (entity != null)
@@ -69,6 +82,10 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
                 return true; // Indication of success
             }
             return false; // Entity not found
+        }
+        public void Remove(T entity)
+        {
+            _context.Set<T>().Remove(entity);
         }
         public async Task<T> GetByIdAsync(int id)
         {
@@ -80,27 +97,23 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
         }
         public async Task<T> FirstOrDefaultAsync()
         {
-            return await _context.Set<T>().FirstOrDefaultAsync();
-        }
-        public async Task<List<T>> ToListAsync()
-        {
-            return await _context.Set<T>().ToListAsync();
+            return await _query.FirstOrDefaultAsync();
         }
         public async Task<bool> AnyAsync()
         {
-            return await _context.Set<T>().AnyAsync();
+            return await _query.AnyAsync();
         }
         public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _context.Set<T>().AnyAsync(predicate);
+            return await _query.AnyAsync(predicate);
         }
         public async Task<bool> AllAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _context.Set<T>().AllAsync(predicate);
+            return await _query.AllAsync(predicate);
         }
         public async Task<T> SingleOrDefaultAsync()
         {
-            return await _context.Set<T>().SingleOrDefaultAsync();
+            return await _query.SingleOrDefaultAsync();
         }
     }
 }

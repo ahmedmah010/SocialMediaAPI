@@ -260,9 +260,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 9, 24, 19, 30, 0, 34, DateTimeKind.Local).AddTicks(2929));
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Media")
                         .IsRequired()
@@ -285,7 +283,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.Education", b =>
@@ -313,7 +311,36 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("ProfileId");
 
-                    b.ToTable("Educations");
+                    b.ToTable("Educations", (string)null);
+                });
+
+            modelBuilder.Entity("SocialMediaAPI.Domain.Entities.FriendRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ReceiverId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequesterId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("RequesterId");
+
+                    b.ToTable("FriendRequest", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.FriendShip", b =>
@@ -328,7 +355,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FriendShips");
+                    b.ToTable("FriendShips", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.Post", b =>
@@ -344,9 +371,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 9, 24, 19, 30, 0, 62, DateTimeKind.Local).AddTicks(3108));
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Media")
                         .HasColumnType("nvarchar(max)");
@@ -361,7 +386,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.ReactionBase", b =>
@@ -405,9 +430,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 9, 24, 19, 30, 0, 79, DateTimeKind.Local).AddTicks(8910));
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Media")
                         .IsRequired()
@@ -420,7 +443,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Stories");
+                    b.ToTable("Stories", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.StoryViewer", b =>
@@ -432,15 +455,13 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ViewedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 9, 24, 19, 30, 0, 81, DateTimeKind.Local).AddTicks(5647));
+                        .HasColumnType("datetime2");
 
                     b.HasKey("StoryId", "ViewerId");
 
                     b.HasIndex("ViewerId");
 
-                    b.ToTable("StoryViewers");
+                    b.ToTable("StoryViewers", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.UserProfile", b =>
@@ -465,7 +486,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Profiles");
+                    b.ToTable("Profiles", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.UserRelationship", b =>
@@ -502,7 +523,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.HasIndex("RequesterId")
                         .IsUnique();
 
-                    b.ToTable("UserRelationships");
+                    b.ToTable("UserRelationships", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.WorkPlace", b =>
@@ -534,7 +555,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("ProfileId");
 
-                    b.ToTable("WorkPlaces");
+                    b.ToTable("WorkPlaces", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.CommentReaction", b =>
@@ -647,6 +668,25 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("SocialMediaAPI.Domain.Entities.FriendRequest", b =>
+                {
+                    b.HasOne("SocialMediaAPI.Domain.Entities.AppUser", "Receiver")
+                        .WithMany("ReceivedFriendRequests")
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SocialMediaAPI.Domain.Entities.AppUser", "Requester")
+                        .WithMany("SentFriendRequests")
+                        .HasForeignKey("RequesterId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Requester");
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.FriendShip", b =>
@@ -790,6 +830,10 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.Navigation("Friends");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("ReceivedFriendRequests");
+
+                    b.Navigation("SentFriendRequests");
 
                     b.Navigation("Stories");
 

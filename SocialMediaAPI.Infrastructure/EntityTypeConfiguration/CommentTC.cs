@@ -14,7 +14,6 @@ namespace SocialMediaAPI.Infrastructure.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.Property(e=>e.Date).HasDefaultValue(DateTime.Now);
             builder
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)

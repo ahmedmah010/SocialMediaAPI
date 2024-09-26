@@ -11,21 +11,24 @@ namespace SocialMediaAPI.Domain.Repositories.Base
     {
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAll();
-        Task<bool> DeleteByIdAsync(int id);
+        Task<bool> RemoveByIdAsync(int id);
+        public void Remove(T entity);
         Task UpdateAsync(T entity);
         Task AddAsync(T entity);
         Task SaveChangesAsync();
-        Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> predicate);
-        Task<IEnumerable<T>> IncludeAsync(Expression<Func<T, object>> navigationProperty);
-        Task<IEnumerable<T>> PaginateAsync(int size, int pageNo);
+        IRepository<T> Where(Expression<Func<T, bool>> predicate);
+        IRepository<T> Include(Expression<Func<T, object>> navigationProperty);
         Task<T> FindWithIncludesAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
         Task<T> FirstOrDefaultAsync();
-        Task<List<T>> ToListAsync();
         Task<bool> AnyAsync();
         Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
         Task<bool> AllAsync(Expression<Func<T, bool>> predicate);
+        IRepository<T> Skip(int count);
+
+        IRepository<T> Take(int count);
+
         Task<int> CountAsync();
         Task<T> SingleOrDefaultAsync();
-        IQueryBuilder<T> QueryBuilder();
+        //IQueryBuilder<T> QueryBuilder();
     }
 }

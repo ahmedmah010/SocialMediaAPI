@@ -14,7 +14,6 @@ namespace SocialMediaAPI.Infrastructure.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<StoryViewer> builder)
         {
             builder.HasKey(e => new { e.StoryId, e.ViewerId }); //Composite PK
-            builder.Property(e => e.ViewedAt).HasDefaultValue(DateTime.Now);
             builder
                 .HasOne(sv => sv.Viewer)
                 .WithMany()

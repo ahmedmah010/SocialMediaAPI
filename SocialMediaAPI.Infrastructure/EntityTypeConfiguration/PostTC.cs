@@ -14,7 +14,6 @@ namespace SocialMediaAPI.Infrastructure.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Post> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.Property(e => e.Date).HasDefaultValue(DateTime.Now);
             builder
                 .HasOne(p => p.User)
                 .WithMany(u => u.Posts)
