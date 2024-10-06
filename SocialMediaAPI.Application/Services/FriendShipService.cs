@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using SocialMediaAPI.Application.DTOs;
 using SocialMediaAPI.Application.DTOs.Response;
 using SocialMediaAPI.Application.Interfaces.Services;
 using SocialMediaAPI.Domain.Entities;
 using SocialMediaAPI.Domain.Enums;
+using SocialMediaAPI.Domain.Repositories;
 using SocialMediaAPI.Domain.Repositories.Base;
 using System;
 using System.Collections.Generic;
@@ -14,18 +17,26 @@ namespace SocialMediaAPI.Application.Services
 {
     public class FriendShipService : IFriendShipService
     {
+        private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUserService;
         private readonly UserManager<AppUser> _userManager; 
         private readonly IRepository<FriendRequest> _friendRequestsRepo;
         private readonly IRepository<AppUser> _appUserRepo;
+        private readonly IFriendRequestRepo _friendRequestSpecificRepo;
         private readonly IRepository<FriendShip> _friendShipRepo;
         private readonly IResponseService _responseService;
+        private readonly IFriendShipRepo _friendShipSpecificRepo;
+        private readonly IRepository<FriendRequest> _friendRequestRepo;
         public FriendShipService(ICurrentUserService currentUserService,
             UserManager<AppUser> userManager, 
             IRepository<FriendRequest> friendRequestsRepo,
             IResponseService responseService,
             IRepository<AppUser> appUserRepo,
-            IRepository<FriendShip> friendShipRepo)
+            IRepository<FriendShip> friendShipRepo,
+            IMapper mapper,
+            IFriendRequestRepo friendRequestSpecificRepo,
+            IFriendShipRepo friendShipSpecificRepo,
+            IRepository<FriendRequest> friendRequestRepo)
         {
             _currentUserService = currentUserService;
             _userManager = userManager;
@@ -33,25 +44,15 @@ namespace SocialMediaAPI.Application.Services
             _responseService = responseService;
             _appUserRepo = appUserRepo;
             _friendShipRepo = friendShipRepo;
+            _mapper = mapper;
+            _friendRequestSpecificRepo = friendRequestSpecificRepo;
+            _friendShipSpecificRepo = friendShipSpecificRepo;
+            _friendRequestRepo = friendRequestRepo;
         }
-        public async Task<ResponseDTO> AcceptFriendRequestAsync(int requestId)
+        private async Task<ResponseDTO> AddFriendAsync(int id) // Private method, won't be directly used.
         {
-            AppUser currentUser = await _currentUserService.GetCurrentUserAsync(user => user.ReceivedFriendRequests);
-            FriendRequest friendRequest = currentUser.ReceivedFriendRequests.Where(friendRequest => friendRequest.Id == requestId).FirstOrDefault();
-            if (friendRequest != null)
-            {
-                friendRequest.Status = FriendRequestStatus.Accepted;
-                await AddFriendAsync(friendRequest.Requester.UserName);
-                await _friendRequestsRepo.SaveChangesAsync();
-                return await _responseService.GenerateSuccessResponseAsync("Friend request accepted");
-            }
-            return await _responseService.GenerateErrorResponseAsync("Friend request not found");
-        }
-
-        public async Task<ResponseDTO> AddFriendAsync(string username)
-        {
-            AppUser newFriend = await _userManager.FindByNameAsync(username); 
-            if(newFriend!=null)
+            AppUser newFriend = await _userManager.FindByIdAsync(id.ToString());
+            if (newFriend != null)
             {
                 FriendShip newFriendShip = new FriendShip
                 {
@@ -64,31 +65,31 @@ namespace SocialMediaAPI.Application.Services
             }
             return await _responseService.GenerateErrorResponseAsync("User not found");
         }
-
-        public async Task<ResponseDTO> GetReceivedFriendRequestsAsync(string username)
+        public async Task<ResponseDTO> AcceptFriendRequestAsync(int requestId)
         {
-            AppUser user = await _appUserRepo.FindWithIncludesAsync(user => user.UserName == username, user => user.ReceivedFriendRequests);
-            if (user != null)
+            AppUser currentUser = await _currentUserService.GetCurrentUserAsync();
+            FriendRequest? friendRequest = await _friendRequestRepo.FirstOrDefaultAsync(r=>r.Id == requestId && r.ReceiverId == currentUser.Id);
+            if (friendRequest != null)
             {
-                return await _responseService.GenerateSuccessResponseAsync(data: user.ReceivedFriendRequests);
+                ResponseDTO result = await AddFriendAsync(friendRequest.RequesterId);
+                if (result.Success)
+                {
+                    friendRequest.Status = FriendRequestStatus.Accepted;
+                    await _friendRequestsRepo.SaveChangesAsync();
+                    return await _responseService.GenerateSuccessResponseAsync("Friend request accepted");
+                }
+                else
+                {
+                    return result;
+                }
             }
-            return await _responseService.GenerateErrorResponseAsync("User not found");
-        }
-
-        public async Task<ResponseDTO> GetSentFriendRequestsAsync(string username)
-        {
-            AppUser user = await _appUserRepo.FindWithIncludesAsync(user => user.UserName == username, user => user.SentFriendRequests);
-            if (user != null)
-            {
-                return await _responseService.GenerateSuccessResponseAsync(data:user.SentFriendRequests);
-            }
-            return await _responseService.GenerateErrorResponseAsync("User not found");
+            return await _responseService.GenerateErrorResponseAsync("Friend request not found");
         }
 
         public async Task<ResponseDTO> RejectFriendRequestAsync(int requestId)
         {
-            AppUser currentUser = await _currentUserService.GetCurrentUserAsync(user => user.ReceivedFriendRequests);
-            FriendRequest friendRequest = currentUser.ReceivedFriendRequests.Where(friendRequest => friendRequest.Id == requestId).FirstOrDefault();
+            AppUser currentUser = await _currentUserService.GetCurrentUserAsync();
+            FriendRequest? friendRequest = await _friendRequestRepo.FirstOrDefaultAsync(r => r.Id == requestId && r.ReceiverId == currentUser.Id);
             if (friendRequest != null)
             {
                 friendRequest.Status = FriendRequestStatus.Rejected;
@@ -97,29 +98,6 @@ namespace SocialMediaAPI.Application.Services
             }
             return await _responseService.GenerateErrorResponseAsync("Friend request not found");
         }
-        public async Task<ResponseDTO> GetAllFriendsAsync(string username)
-        {
-            AppUser user = await _appUserRepo.FindWithIncludesAsync(user => user.UserName == username, user => user.Friends);
-            if (user != null)
-            {
-                List<AppUser> friends = user.Friends.Select(friendShip => friendShip.Friend).ToList();
-                return await _responseService.GenerateSuccessResponseAsync(data: friends);
-            }
-            return await _responseService.GenerateErrorResponseAsync("Invalid user");
-        }
-        public async Task<ResponseDTO> RemoveFriendAsync(string username)
-        {
-            AppUser currentUser = await _currentUserService.GetCurrentUserAsync(u => u.Friends);
-            FriendShip? friendShip = currentUser.Friends?.Where(friendShip=>friendShip.Friend.UserName == username)?.FirstOrDefault();
-            if (friendShip != null)
-            {
-                _friendShipRepo.Remove(friendShip);
-                await _friendShipRepo.SaveChangesAsync();
-                return await _responseService.GenerateSuccessResponseAsync("Friend removed");
-            }
-            return await _responseService.GenerateErrorResponseAsync("This friend doesn't exist in your friendlist");
-        }
-
         public async Task<ResponseDTO> SendFriendRequestAsync(string username)
         {
             AppUser? Requester = await _currentUserService.GetCurrentUserAsync();
@@ -136,8 +114,53 @@ namespace SocialMediaAPI.Application.Services
                 await _friendRequestsRepo.AddAsync(newFriendRequest);
                 await _friendRequestsRepo.SaveChangesAsync();
                 return await _responseService.GenerateSuccessResponseAsync("Friend request sent");
-            } 
+            }
             return await _responseService.GenerateErrorResponseAsync("Something wrong happened");
         }
+
+        public async Task<ResponseDTO> GetReceivedFriendRequestsAsync(string username) 
+        {
+            AppUser user = await _userManager.FindByNameAsync(username);
+            if (user != null)
+            {
+                List<ReceivedFriendRequestDTO> receivedFriendRequestsDTO = _mapper.ProjectTo<ReceivedFriendRequestDTO>(_friendRequestSpecificRepo.GetReceivedFriendRequests(username)).ToList();
+                return await _responseService.GenerateSuccessResponseAsync(data: receivedFriendRequestsDTO);
+            }
+            return await _responseService.GenerateErrorResponseAsync("User not found");
+        }
+
+        public async Task<ResponseDTO> GetSentFriendRequestsAsync(string username)
+        {
+            AppUser user = await _userManager.FindByNameAsync(username);
+            if (user != null)
+            {
+                List<SentFriendRequestDTO> sentFriendRequestsDTO = _mapper.ProjectTo<SentFriendRequestDTO>(_friendRequestSpecificRepo.GetSentFriendRequests(username)).ToList();
+                return await _responseService.GenerateSuccessResponseAsync(data: sentFriendRequestsDTO);
+            }
+            return await _responseService.GenerateErrorResponseAsync("User not found");
+        }
+        public async Task<ResponseDTO> GetAllFriendsAsync(string username)
+        {
+            AppUser? user = await _userManager.FindByNameAsync(username);
+            if (user != null)
+            {
+                List<FriendDTO> friends = _mapper.ProjectTo<FriendDTO>(_friendShipSpecificRepo.GetAllFriends(user.Id)).ToList();
+                return await _responseService.GenerateSuccessResponseAsync(data: friends);
+            }
+            return await _responseService.GenerateErrorResponseAsync("User not found");
+        }
+        public async Task<ResponseDTO> RemoveFriendAsync(int userId)
+        {
+            int currentUserId = await _currentUserService.GetCurrentUserIdAsync();
+            FriendShip? friendShip = await _friendShipSpecificRepo.GetFriendShipAsync(currentUserId, userId);
+            if (friendShip != null)
+            {
+                _friendShipRepo.Remove(friendShip);
+                await _friendShipRepo.SaveChangesAsync();
+                return await _responseService.GenerateSuccessResponseAsync("Friend removed");
+            }
+            return await _responseService.GenerateErrorResponseAsync("This friend doesn't exist in your friendlist");
+        }
+
     }
 }

@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialMediaAPI.Domain.Entities;
+using SocialMediaAPI.Domain.Repositories;
 using SocialMediaAPI.Domain.Repositories.Base;
 using SocialMediaAPI.Infrastructure.Context;
+using SocialMediaAPI.Infrastructure.Repositories;
 using SocialMediaAPI.Infrastructure.Repositories.Base;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,8 @@ namespace SocialMediaAPI.Infrastructure
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default")));
             services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<AppDbContext>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IFriendRequestRepo, FriendRequestRepo>();
+            services.AddScoped<IFriendShipRepo, FriendShipRepo>();
             return services;
         }
     }

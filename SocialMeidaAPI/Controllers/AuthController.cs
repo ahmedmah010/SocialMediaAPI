@@ -8,10 +8,10 @@ namespace SocialMeidaAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserAuthController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly IAccountService _accountService;
-        public UserAuthController(IAccountService accountService)
+        public AuthController(IAccountService accountService)
         {
             _accountService = accountService;
         }

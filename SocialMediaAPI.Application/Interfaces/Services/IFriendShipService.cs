@@ -10,8 +10,8 @@ namespace SocialMediaAPI.Application.Interfaces.Services
     public interface IFriendShipService
     {
         Task<ResponseDTO> SendFriendRequestAsync(string username);
-        Task<ResponseDTO> AddFriendAsync(string username);
-        Task<ResponseDTO> RemoveFriendAsync(string username);
+        //Task<ResponseDTO> AddFriendAsync(string username);
+        Task<ResponseDTO> RemoveFriendAsync(int userId);
         Task<ResponseDTO> AcceptFriendRequestAsync(int requestId);
         Task<ResponseDTO> RejectFriendRequestAsync(int requestId);
         Task<ResponseDTO> GetReceivedFriendRequestsAsync(string username);

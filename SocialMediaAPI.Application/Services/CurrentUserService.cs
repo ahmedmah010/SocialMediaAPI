@@ -29,14 +29,14 @@ namespace SocialMediaAPI.Application.Services
         public async Task<AppUser> GetCurrentUserAsync(params Expression<Func<AppUser, object>>[] includes)
         {
             AppUser currentUser;
-            int currentUserId = await GetCurrentUserIdAsync();
+            string currentUserUsername = GetCurrentUserUsername();
             if (includes != null)
             {
-                currentUser = await _appUserRepo.FindWithIncludesAsync(user => user.Id == currentUserId, includes);
+                currentUser = await _appUserRepo.FindWithIncludesAsync(user => user.UserName == currentUserUsername, includes);
             }
             else
             {
-                currentUser = await _appUserRepo.GetByIdAsync(currentUserId);
+                currentUser = await _appUserRepo.Where(user => user.UserName == currentUserUsername).FirstOrDefaultAsync();
             }
             return currentUser;
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using SocialMediaAPI.Domain.Repositories.Base;
 using SocialMediaAPI.Infrastructure.Context;
 using System;
@@ -14,8 +15,8 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly AppDbContext _context;
-        private IQueryable<T> _query;
+        protected readonly AppDbContext _context;
+        protected IQueryable<T> _query;
         public Repository(AppDbContext context)
         {
             _context = context;
@@ -37,6 +38,7 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
             _query = _query.Include(navigationProperty);
             return this;
         }
+
         public IRepository<T> Skip(int count)
         {
             _query = _query.Skip(count);
@@ -56,6 +58,11 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
                 query = query.Include(include);
             }
             return await query.FirstOrDefaultAsync();
+        }
+        public async Task<T?> NestedInclude(Func<IQueryable<T>, IIncludableQueryable<T, object>> includes) // Include().ThenInclude()
+        {
+            _query = includes(_query); // includes is a delegate (a pointer to a function)
+            return await _query.FirstOrDefaultAsync();
         }
         public async Task<IEnumerable<T>> GetAll()
         {
@@ -99,6 +106,10 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
         {
             return await _query.FirstOrDefaultAsync();
         }
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T,bool>> predicate)
+        {
+            return await _query.FirstOrDefaultAsync(predicate);
+        }
         public async Task<bool> AnyAsync()
         {
             return await _query.AnyAsync();
@@ -115,5 +126,6 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
         {
             return await _query.SingleOrDefaultAsync();
         }
+
     }
 }

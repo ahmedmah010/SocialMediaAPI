@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SocialMediaAPI.Domain.Entities
@@ -18,7 +19,9 @@ namespace SocialMediaAPI.Domain.Entities
         public DateTime CreatedAt { get; set; }
 
         // Navigation Properties
+        [JsonIgnore]
         public AppUser Requester { get; set; }
+        [JsonIgnore]
         public AppUser Receiver { get; set; }
     }
 }
