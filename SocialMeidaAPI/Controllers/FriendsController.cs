@@ -17,22 +17,28 @@ namespace SocialMeidaAPI.Controllers
 
             _friendShipService = friendShipService;
         }
-        [HttpGet("{username}/request")]
+        [HttpPost("requests/{username}")]
         public async Task<IActionResult> SendFriendRequestAsync([FromRoute]string username)
         {
             ResponseDTO response = await _friendShipService.SendFriendRequestAsync(username);
             return response.Success? Ok(response) : BadRequest(response);
         }
-        [HttpGet("request/{id:int}/accept")]
+        [HttpPost("requests/{id:int}/accept")]
         public async Task<IActionResult> AcceptFriendRequestAsync([FromRoute] int id)
         {
             ResponseDTO response = await _friendShipService.AcceptFriendRequestAsync(id);
             return response.Success ? Ok(response) : BadRequest(response);
         }
-        [HttpGet("request/{id:int}/reject")]
+        [HttpDelete("requests/{id:int}/reject")]
         public async Task<IActionResult> RejectFriendRequestAsync([FromRoute] int id)
         {
             ResponseDTO response = await _friendShipService.RejectFriendRequestAsync(id);
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
+        [HttpDelete("requests/{id:int}/revoke")]
+        public async Task<IActionResult> RevokeFriendRequestAsync([FromRoute] int id)
+        {
+            ResponseDTO response = await _friendShipService.RevokeFriendRequestAsync(id);
             return response.Success ? Ok(response) : BadRequest(response);
         }
         [HttpGet("requests/received")]

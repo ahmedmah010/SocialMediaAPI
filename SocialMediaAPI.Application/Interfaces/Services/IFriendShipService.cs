@@ -12,6 +12,7 @@ namespace SocialMediaAPI.Application.Interfaces.Services
         Task<ResponseDTO> SendFriendRequestAsync(string username);
         //Task<ResponseDTO> AddFriendAsync(string username);
         Task<ResponseDTO> RemoveFriendAsync(int userId);
+        Task<ResponseDTO> RevokeFriendRequestAsync(int requestId);
         Task<ResponseDTO> AcceptFriendRequestAsync(int requestId);
         Task<ResponseDTO> RejectFriendRequestAsync(int requestId);
         Task<ResponseDTO> GetReceivedFriendRequestsAsync(string username);

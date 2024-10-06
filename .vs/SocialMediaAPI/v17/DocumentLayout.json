@@ -1,54 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\SocialMediaAPI\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|e:\\socialmediaapi\\socialmediaapi.application\\services\\friendshipservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|solutionrelative:socialmediaapi.application\\services\\friendshipservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CDE77ED1-2173-4976-9669-D5A4EC42BE68}|SocialMediaAPI.Infrastructure\\SocialMediaAPI.Infrastructure.csproj|e:\\socialmediaapi\\socialmediaapi.infrastructure\\repositories\\base\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CDE77ED1-2173-4976-9669-D5A4EC42BE68}|SocialMediaAPI.Infrastructure\\SocialMediaAPI.Infrastructure.csproj|solutionrelative:socialmediaapi.infrastructure\\repositories\\base\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 1,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Repository.cs",
-              "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Infrastructure\\Repositories\\Base\\Repository.cs",
-              "RelativeDocumentMoniker": "SocialMediaAPI.Infrastructure\\Repositories\\Base\\Repository.cs",
-              "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Infrastructure\\Repositories\\Base\\Repository.cs",
-              "RelativeToolTip": "SocialMediaAPI.Infrastructure\\Repositories\\Base\\Repository.cs",
-              "ViewState": "AQIAACsAAAAAAAAAAAAkwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-06T03:30:01.018Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FriendShipService.cs",
-              "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Services\\FriendShipService.cs",
-              "RelativeDocumentMoniker": "SocialMediaAPI.Application\\Services\\FriendShipService.cs",
-              "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Services\\FriendShipService.cs",
-              "RelativeToolTip": "SocialMediaAPI.Application\\Services\\FriendShipService.cs",
-              "ViewState": "AQIAAI4AAAAAAAAAAADwv0YAAACOAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-28T16:54:50.774Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

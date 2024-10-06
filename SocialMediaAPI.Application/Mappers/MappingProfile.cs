@@ -20,14 +20,12 @@ namespace SocialMediaAPI.Application.Mappers
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email));
 
             CreateMap<FriendRequest, ReceivedFriendRequestDTO>()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Requester.FirstName + " " + src.Requester.LastName))
                 .ForMember(dest => dest.RequestDate, opt => opt.MapFrom(src => src.CreatedAt))
                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Requester.UserName))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
 
             CreateMap<FriendRequest, SentFriendRequestDTO>()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Receiver.FirstName + " " + src.Receiver.LastName))
                 .ForMember(dest => dest.RequestDate, opt => opt.MapFrom(src => src.CreatedAt))
                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Receiver.UserName))

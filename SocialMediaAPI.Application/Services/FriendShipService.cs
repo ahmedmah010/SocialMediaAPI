@@ -20,7 +20,6 @@ namespace SocialMediaAPI.Application.Services
         private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUserService;
         private readonly UserManager<AppUser> _userManager; 
-        private readonly IRepository<FriendRequest> _friendRequestsRepo;
         private readonly IRepository<AppUser> _appUserRepo;
         private readonly IFriendRequestRepo _friendRequestSpecificRepo;
         private readonly IRepository<FriendShip> _friendShipRepo;
@@ -29,7 +28,6 @@ namespace SocialMediaAPI.Application.Services
         private readonly IRepository<FriendRequest> _friendRequestRepo;
         public FriendShipService(ICurrentUserService currentUserService,
             UserManager<AppUser> userManager, 
-            IRepository<FriendRequest> friendRequestsRepo,
             IResponseService responseService,
             IRepository<AppUser> appUserRepo,
             IRepository<FriendShip> friendShipRepo,
@@ -40,7 +38,6 @@ namespace SocialMediaAPI.Application.Services
         {
             _currentUserService = currentUserService;
             _userManager = userManager;
-            _friendRequestsRepo = friendRequestsRepo;
             _responseService = responseService;
             _appUserRepo = appUserRepo;
             _friendShipRepo = friendShipRepo;
@@ -49,7 +46,7 @@ namespace SocialMediaAPI.Application.Services
             _friendShipSpecificRepo = friendShipSpecificRepo;
             _friendRequestRepo = friendRequestRepo;
         }
-        private async Task<ResponseDTO> AddFriendAsync(int id) // Private method, won't be directly used.
+        private async Task<ResponseDTO> AddFriendAsync(int id) // Private helper method, won't be directly used.
         {
             AppUser newFriend = await _userManager.FindByIdAsync(id.ToString());
             if (newFriend != null)
@@ -74,8 +71,9 @@ namespace SocialMediaAPI.Application.Services
                 ResponseDTO result = await AddFriendAsync(friendRequest.RequesterId);
                 if (result.Success)
                 {
-                    friendRequest.Status = FriendRequestStatus.Accepted;
-                    await _friendRequestsRepo.SaveChangesAsync();
+                    //friendRequest.Status = FriendRequestStatus.Accepted;
+                    _friendRequestRepo.Remove(friendRequest);
+                    await _friendRequestRepo.SaveChangesAsync();
                     return await _responseService.GenerateSuccessResponseAsync("Friend request accepted");
                 }
                 else
@@ -92,18 +90,44 @@ namespace SocialMediaAPI.Application.Services
             FriendRequest? friendRequest = await _friendRequestRepo.FirstOrDefaultAsync(r => r.Id == requestId && r.ReceiverId == currentUser.Id);
             if (friendRequest != null)
             {
-                friendRequest.Status = FriendRequestStatus.Rejected;
-                await _friendRequestsRepo.SaveChangesAsync();
+                //friendRequest.Status = FriendRequestStatus.Rejected;
+                _friendRequestRepo.Remove(friendRequest);
+                await _friendRequestRepo.SaveChangesAsync();
                 return await _responseService.GenerateSuccessResponseAsync("Friend request rejected");
             }
             return await _responseService.GenerateErrorResponseAsync("Friend request not found");
+        }
+        // Helper method
+        private async Task<bool> AreUsersAlreadyFriendsAsync(int requesterId, int receiverId)
+        {
+            return await _friendShipRepo.AnyAsync(fs => 
+                (fs.UserId == requesterId && fs.FriendId == receiverId) ||
+                (fs.UserId == receiverId && fs.FriendId == requesterId)
+                );
+        }
+        // Helper method to check if a friend request exists
+        // If the receiver has a request already from the requester then the receiver can't send a request, also if the requester has already sent a request before then he cannot send another one
+        private async Task<bool> DoesFriendRequestExistAsync(int requesterId, int receiverId)
+        {
+            return await _friendRequestRepo.AnyAsync(r =>
+                (r.RequesterId == requesterId && r.ReceiverId == receiverId) ||
+                (r.RequesterId == receiverId && r.ReceiverId == requesterId)
+                );
         }
         public async Task<ResponseDTO> SendFriendRequestAsync(string username)
         {
             AppUser? Requester = await _currentUserService.GetCurrentUserAsync();
             AppUser? Receiver = await _userManager.FindByNameAsync(username);
-            if (Receiver != null && Requester != null)
+            if (Receiver != null && Requester != null && Receiver.Id != Requester.Id) // Receiver.Id == Requester.Id to avoid the bug where a user can send a friend request to himself
             {
+                if(await DoesFriendRequestExistAsync(Requester.Id, Receiver.Id))
+                {
+                    return await _responseService.GenerateErrorResponseAsync("A friend request already exists");
+                }
+                if (await AreUsersAlreadyFriendsAsync(Requester.Id,Receiver.Id))
+                {
+                    return await _responseService.GenerateErrorResponseAsync("You can't send a friend request to a user that is already your friend");
+                }
                 FriendRequest newFriendRequest = new FriendRequest
                 {
                     CreatedAt = DateTime.Now,
@@ -111,13 +135,27 @@ namespace SocialMediaAPI.Application.Services
                     Requester = Requester,
                     Status = FriendRequestStatus.Pending,
                 };
-                await _friendRequestsRepo.AddAsync(newFriendRequest);
-                await _friendRequestsRepo.SaveChangesAsync();
+                await _friendRequestRepo.AddAsync(newFriendRequest);
+                await _friendRequestRepo.SaveChangesAsync();
                 return await _responseService.GenerateSuccessResponseAsync("Friend request sent");
             }
             return await _responseService.GenerateErrorResponseAsync("Something wrong happened");
         }
-
+        public async Task<ResponseDTO> RevokeFriendRequestAsync(int requestId)
+        {
+            FriendRequest friendRequest = await _friendRequestRepo.GetByIdAsync(requestId);
+            if (friendRequest != null)
+            {
+                int currentUserId = await _currentUserService.GetCurrentUserIdAsync();
+                if(friendRequest.RequesterId == currentUserId)
+                {
+                    _friendRequestRepo.Remove(friendRequest);
+                    await _friendRequestRepo.SaveChangesAsync();
+                    return await _responseService.GenerateSuccessResponseAsync("Friend request revoked");
+                }
+            }
+            return await _responseService.GenerateErrorResponseAsync("Friend request not found");
+        }
         public async Task<ResponseDTO> GetReceivedFriendRequestsAsync(string username) 
         {
             AppUser user = await _userManager.FindByNameAsync(username);

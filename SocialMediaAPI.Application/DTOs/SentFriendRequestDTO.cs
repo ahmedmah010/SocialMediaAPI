@@ -13,7 +13,7 @@ namespace SocialMediaAPI.Application.DTOs
         public string Username { get; set; }
         public string FullName { get; set; }
         public string ProfilePic { get; set; }
-        public FriendRequestStatus Status { get; set; }
+        //public FriendRequestStatus Status { get; set; }
         public DateTime RequestDate { get; set; }
 
     }

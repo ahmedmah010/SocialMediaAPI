@@ -21,11 +21,11 @@ namespace SocialMediaAPI.Infrastructure.Repositories
         }
         public IQueryable<FriendRequest> GetReceivedFriendRequests(string username)
         {
-           return _context.Set<FriendRequest>().Where(r=>r.Receiver.UserName == username && r.Status == FriendRequestStatus.Pending);
+           return _context.Set<FriendRequest>().Where(r=>r.Receiver.UserName == username);
         }
         public IQueryable<FriendRequest> GetSentFriendRequests(string username)
         {
-            return _context.Set<FriendRequest>().Where(r => r.Requester.UserName == username && r.Status == FriendRequestStatus.Pending);
+            return _context.Set<FriendRequest>().Where(r => r.Requester.UserName == username);
         }
     }
 }

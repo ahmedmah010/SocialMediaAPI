@@ -96,7 +96,7 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
         }
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _context.Set<T>().FindAsync();
+            return await _context.Set<T>().FindAsync(id);
         }
         public async Task SaveChangesAsync()
         {
