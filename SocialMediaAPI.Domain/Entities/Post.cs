@@ -14,14 +14,12 @@ namespace SocialMediaAPI.Domain.Entities
         public DateTime Date { get; set; }
         public PostPrivacy Privacy { get; set; }
         public string Content { get; set; }
-        public string[]? Media {  get; set; } //List of file names (either pics or videos) on the server
-
         //Navigation Properties
         public virtual AppUser User { get; set; }
         public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
         public virtual ICollection<PostReaction> Reactions { get; set; } = new HashSet<PostReaction>();
-
-
+        public virtual ICollection<PostMedia> Media { get; set; } = new HashSet<PostMedia>();
 
     }
+
 }

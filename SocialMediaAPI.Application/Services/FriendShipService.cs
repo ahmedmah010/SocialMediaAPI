@@ -132,8 +132,7 @@ namespace SocialMediaAPI.Application.Services
                 {
                     CreatedAt = DateTime.Now,
                     Receiver = Receiver,
-                    Requester = Requester,
-                    Status = FriendRequestStatus.Pending,
+                    Requester = Requester
                 };
                 await _friendRequestRepo.AddAsync(newFriendRequest);
                 await _friendRequestRepo.SaveChangesAsync();

@@ -13,9 +13,6 @@ namespace SocialMediaAPI.Domain.Entities
         public int Id { get; set; }
         public int RequesterId { get; set; }
         public int ReceiverId { get; set; }
-
-        public FriendRequestStatus Status { get; set; }
-
         public DateTime CreatedAt { get; set; }
 
         // Navigation Properties

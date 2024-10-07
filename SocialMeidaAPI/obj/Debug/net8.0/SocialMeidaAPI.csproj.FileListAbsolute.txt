@@ -1,5 +1,6 @@
 E:\SocialMediaAPI\SocialMeidaAPI\bin\Debug\net8.0\appsettings.Development.json
 E:\SocialMediaAPI\SocialMeidaAPI\bin\Debug\net8.0\appsettings.json
+E:\SocialMediaAPI\SocialMeidaAPI\bin\Debug\net8.0\SocialMeidaAPI.staticwebassets.runtime.json
 E:\SocialMediaAPI\SocialMeidaAPI\bin\Debug\net8.0\SocialMeidaAPI.exe
 E:\SocialMediaAPI\SocialMeidaAPI\bin\Debug\net8.0\SocialMeidaAPI.deps.json
 E:\SocialMediaAPI\SocialMeidaAPI\bin\Debug\net8.0\SocialMeidaAPI.runtimeconfig.json

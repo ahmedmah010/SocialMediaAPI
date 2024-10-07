@@ -22,6 +22,10 @@
     <ProjectReference Include="..\SocialMediaAPI.Shared\SocialMediaAPI.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\PostMedia\" />
+  </ItemGroup>
+
 
 
 </Project>

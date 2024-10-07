@@ -30,6 +30,11 @@ namespace SocialMediaAPI.Infrastructure.EntityTypeConfiguration
                 .HasForeignKey(pr=>pr.PostId)
                 .HasPrincipalKey(p=> p.Id)
                 .OnDelete(DeleteBehavior.NoAction); //Configure deletetion manually, as EF sees the ProductReaction and CommentReaction as One table (they're actually one table due to the TPH) which causes the cyclic cascade paths error
+            builder
+                .HasMany(p => p.Media)
+                .WithOne(ph => ph.Post)
+                .HasForeignKey(ph => ph.PostId)
+                .HasPrincipalKey(p => p.Id);
         }
     }
 }
