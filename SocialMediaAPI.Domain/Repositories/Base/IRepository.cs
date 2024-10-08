@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace SocialMediaAPI.Domain.Repositories.Base
 
         Task<int> CountAsync();
         Task<T> SingleOrDefaultAsync();
+        Task<IDbContextTransaction> BeginTransactionAsync();
         //IQueryBuilder<T> QueryBuilder();
     }
 }

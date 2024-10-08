@@ -3,20 +3,8 @@
   "WorkspaceRootPath": "E:\\SocialMediaAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|e:\\socialmediaapi\\socialmediaapi.application\\services\\postservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|solutionrelative:socialmediaapi.application\\services\\postservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|e:\\socialmediaapi\\socialmediaapi.application\\interfaces\\services\\ipostservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|solutionrelative:socialmediaapi.application\\interfaces\\services\\ipostservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F26EFAFE-7DE9-4935-BBD3-57F642B04F47}|SocialMediaAPI.Domain\\SocialMediaAPI.Domain.csproj|e:\\socialmediaapi\\socialmediaapi.domain\\entities\\post.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F26EFAFE-7DE9-4935-BBD3-57F642B04F47}|SocialMediaAPI.Domain\\SocialMediaAPI.Domain.csproj|solutionrelative:socialmediaapi.domain\\entities\\post.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|e:\\socialmediaapi\\socialmediaapi.application\\dtos\\postdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|solutionrelative:socialmediaapi.application\\dtos\\postdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,56 +14,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Post.cs",
-              "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Domain\\Entities\\Post.cs",
-              "RelativeDocumentMoniker": "SocialMediaAPI.Domain\\Entities\\Post.cs",
-              "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Domain\\Entities\\Post.cs",
-              "RelativeToolTip": "SocialMediaAPI.Domain\\Entities\\Post.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-07T00:50:22.896Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PostDTO.cs",
-              "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\DTOs\\PostDTO.cs",
-              "RelativeDocumentMoniker": "SocialMediaAPI.Application\\DTOs\\PostDTO.cs",
-              "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\DTOs\\PostDTO.cs",
-              "RelativeToolTip": "SocialMediaAPI.Application\\DTOs\\PostDTO.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-06T20:50:48.432Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "PostService.cs",
-              "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Services\\PostService.cs",
-              "RelativeDocumentMoniker": "SocialMediaAPI.Application\\Services\\PostService.cs",
-              "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Services\\PostService.cs",
-              "RelativeToolTip": "SocialMediaAPI.Application\\Services\\PostService.cs",
-              "ViewState": "AQIAAFEAAAAAAAAAAAAgwFwAAAALAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-06T19:54:34.008Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "IPostService.cs",
               "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Interfaces\\Services\\IPostService.cs",
               "RelativeDocumentMoniker": "SocialMediaAPI.Application\\Interfaces\\Services\\IPostService.cs",
               "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Interfaces\\Services\\IPostService.cs",
               "RelativeToolTip": "SocialMediaAPI.Application\\Interfaces\\Services\\IPostService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAA2AAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-06T19:39:46.32Z",
               "EditorCaption": ""

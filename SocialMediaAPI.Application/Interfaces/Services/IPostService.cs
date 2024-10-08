@@ -11,5 +11,7 @@ namespace SocialMediaAPI.Application.Interfaces.Services
     public interface IPostService
     {
         Task<ResponseDTO> CreatePostAsync(PostDTO post);
+        Task<ResponseDTO> UpdatePostAsync(PostDTO postDTO);
+        Task<ResponseDTO> RemovePostAsync(int id);
     }
 }

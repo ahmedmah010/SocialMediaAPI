@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Storage;
 using SocialMediaAPI.Domain.Repositories.Base;
 using SocialMediaAPI.Infrastructure.Context;
 using System;
@@ -89,6 +90,10 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
                 return true; // Indication of success
             }
             return false; // Entity not found
+        }
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await _context.Database.BeginTransactionAsync();
         }
         public void Remove(T entity)
         {

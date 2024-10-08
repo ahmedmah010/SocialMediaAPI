@@ -10,10 +10,11 @@ namespace SocialMediaAPI.Application.DTOs
 {
     public class PostDTO
     {
-        public string Content {  get; set; }
+        public int Id { get; set; }
+        public string? Content {  get; set; }
         public PostPrivacy Privacy {  get; set; }
-        public List<IFormFile> Photos { get; set; }
-        public List<IFormFile> Videos {  get; set; }
+        public List<IFormFile>? Photos { get; set; }
+        public List<IFormFile>? Videos {  get; set; }
 
 
     }
