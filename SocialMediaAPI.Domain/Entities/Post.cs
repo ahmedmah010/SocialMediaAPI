@@ -13,7 +13,7 @@ namespace SocialMediaAPI.Domain.Entities
         public int UserId { get; set; } //FK
         public DateTime Date { get; set; }
         public PostPrivacy Privacy { get; set; }
-        public string Content { get; set; }
+        public string? Content { get; set; }
         //Navigation Properties
         public virtual AppUser User { get; set; }
         public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();

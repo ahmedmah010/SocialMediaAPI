@@ -13,7 +13,6 @@ namespace SocialMediaAPI.Domain.Entities
         public int PostId { get; set; }
         public int? ParentCommentId { get; set; }
         public string Content { get; set; }
-        public string Media {  get; set; }
         public DateTime Date { get; set; }
 
         //Navigation Properties

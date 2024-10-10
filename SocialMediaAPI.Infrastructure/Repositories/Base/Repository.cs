@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Storage;
 using SocialMediaAPI.Domain.Repositories.Base;
@@ -76,6 +77,10 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
         public async Task UpdateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
+        }
+        public async Task<int> ExecuteSqlRawAsync(string query, params object[] objects) // returns the number of rows affected
+        {
+            return await _context.Database.ExecuteSqlRawAsync(query, objects);
         }
         public async Task<int> CountAsync()
         {

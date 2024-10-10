@@ -23,5 +23,17 @@ namespace SocialMeidaAPI.Controllers
             ResponseDTO response = await _postService.CreatePostAsync(post);
             return response.Success ? Ok(response) : BadRequest(response);
         }
+        [HttpPut]
+        public async Task<IActionResult> UpdatePostAsync([FromForm] PostDTO post)
+        {
+            ResponseDTO response = await _postService.UpdatePostAsync(post);
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> RemovePostAsync([FromRoute] int id)
+        {
+            ResponseDTO response = await _postService.RemovePostAsync(id);
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
     }
 }

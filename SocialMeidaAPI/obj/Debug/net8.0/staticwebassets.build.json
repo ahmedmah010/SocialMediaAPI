@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "DVWMa0G2ZhbXq2eWpoGnw7lCOdSXKAOHCL1XNVUpfME=",
+  "Hash": "8z6+8FpcLQSZ2dLKPr7iMkejhk69UAaMAz6m6CnHFhE=",
   "Source": "SocialMeidaAPI",
   "BasePath": "_content/SocialMeidaAPI",
   "Mode": "Default",
@@ -15,82 +15,5 @@
       "Pattern": "**"
     }
   ],
-  "Assets": [
-    {
-      "Identity": "E:\\SocialMediaAPI\\SocialMeidaAPI\\wwwroot\\PostMedia\\5\\8f30ad44-1cd6-4735-97bd-cc2206e34ccc_61zUtPfyl2L._AC_UL480_QL65_.jpg",
-      "SourceId": "SocialMeidaAPI",
-      "SourceType": "Discovered",
-      "ContentRoot": "E:\\SocialMediaAPI\\SocialMeidaAPI\\wwwroot\\",
-      "BasePath": "_content/SocialMeidaAPI",
-      "RelativePath": "PostMedia/5/8f30ad44-1cd6-4735-97bd-cc2206e34ccc_61zUtPfyl2L._AC_UL480_QL65_.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\PostMedia\\5\\8f30ad44-1cd6-4735-97bd-cc2206e34ccc_61zUtPfyl2L._AC_UL480_QL65_.jpg"
-    },
-    {
-      "Identity": "E:\\SocialMediaAPI\\SocialMeidaAPI\\wwwroot\\PostMedia\\5\\d61efbc2-8556-4916-b655-38a065a080d7_1.jpeg",
-      "SourceId": "SocialMeidaAPI",
-      "SourceType": "Discovered",
-      "ContentRoot": "E:\\SocialMediaAPI\\SocialMeidaAPI\\wwwroot\\",
-      "BasePath": "_content/SocialMeidaAPI",
-      "RelativePath": "PostMedia/5/d61efbc2-8556-4916-b655-38a065a080d7_1.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\PostMedia\\5\\d61efbc2-8556-4916-b655-38a065a080d7_1.jpeg"
-    },
-    {
-      "Identity": "E:\\SocialMediaAPI\\SocialMeidaAPI\\wwwroot\\PostMedia\\6\\47a8f271-1933-4f5b-a87f-897fce21d97d_3.jpeg",
-      "SourceId": "SocialMeidaAPI",
-      "SourceType": "Discovered",
-      "ContentRoot": "E:\\SocialMediaAPI\\SocialMeidaAPI\\wwwroot\\",
-      "BasePath": "_content/SocialMeidaAPI",
-      "RelativePath": "PostMedia/6/47a8f271-1933-4f5b-a87f-897fce21d97d_3.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\PostMedia\\6\\47a8f271-1933-4f5b-a87f-897fce21d97d_3.jpeg"
-    },
-    {
-      "Identity": "E:\\SocialMediaAPI\\SocialMeidaAPI\\wwwroot\\PostMedia\\6\\5fea5589-f3bb-4d15-881b-a7253bd7f000_1.jpeg",
-      "SourceId": "SocialMeidaAPI",
-      "SourceType": "Discovered",
-      "ContentRoot": "E:\\SocialMediaAPI\\SocialMeidaAPI\\wwwroot\\",
-      "BasePath": "_content/SocialMeidaAPI",
-      "RelativePath": "PostMedia/6/5fea5589-f3bb-4d15-881b-a7253bd7f000_1.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\PostMedia\\6\\5fea5589-f3bb-4d15-881b-a7253bd7f000_1.jpeg"
-    }
-  ]
+  "Assets": []
 }
