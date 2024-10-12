@@ -25,13 +25,19 @@ namespace SocialMediaAPI.Infrastructure.EntityTypeConfiguration
                 .WithMany(pc => pc.ChildComments)
                 .HasForeignKey(c => c.ParentCommentId)
                 .HasPrincipalKey(pc => pc.Id)
-                .OnDelete(DeleteBehavior.NoAction); //Configure deletetion manually, as deleting a post deletes all the corresponding comments and deleteing a parent comment deletets all the corresponding comment which creates a cyclic cascade paths error (as there're two paths to delete the same entity "comment")
+                .OnDelete(DeleteBehavior.NoAction); // Configure deletetion manually, as deleting a post deletes all the corresponding comments and deleteing a parent comment deletets all the corresponding comment which creates a cyclic cascade paths error (as there're two paths to delete the same entity "comment")
             builder
                 .HasMany(c => c.Reactions)
                 .WithOne(cr => cr.Comment)
                 .HasForeignKey(cr => cr.CommentId)
                 .HasPrincipalKey(c => c.Id)
-                .OnDelete(DeleteBehavior.NoAction); //Configure deletetion manually, as EF sees the ProductReaction and CommentReaction as One table (they're actually one table due to the TPH) which causes the cyclic cascade paths error
+                .OnDelete(DeleteBehavior.NoAction); // Configure deletetion manually, as EF sees the ProductReaction and CommentReaction as One table (they're actually one table due to the TPH) which causes the cyclic cascade paths error
+            builder
+                .HasOne(c => c.ReactionsStatus)
+                .WithOne(rs => rs.Comment)
+                .HasForeignKey<ReactionsStatus>(rs => rs.CommentId)
+                .HasPrincipalKey<Comment>(c => c.Id)
+                .OnDelete(DeleteBehavior.NoAction); // Configure deletetion manually, cannot delete the same entry from two different sources (comment, post)
         }
     }
 }

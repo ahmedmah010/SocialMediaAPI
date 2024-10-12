@@ -428,6 +428,48 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("SocialMediaAPI.Domain.Entities.ReactionsStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AngryCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HahaCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LikeCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LoveCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalReactionsCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId")
+                        .IsUnique()
+                        .HasFilter("[CommentId] IS NOT NULL");
+
+                    b.HasIndex("PostId")
+                        .IsUnique()
+                        .HasFilter("[PostId] IS NOT NULL");
+
+                    b.ToTable("ReactionsStatuses");
+                });
+
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.Story", b =>
                 {
                     b.Property<int>("Id")
@@ -752,6 +794,23 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SocialMediaAPI.Domain.Entities.ReactionsStatus", b =>
+                {
+                    b.HasOne("SocialMediaAPI.Domain.Entities.Comment", "Comment")
+                        .WithOne("ReactionsStatus")
+                        .HasForeignKey("SocialMediaAPI.Domain.Entities.ReactionsStatus", "CommentId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("SocialMediaAPI.Domain.Entities.Post", "Post")
+                        .WithOne("ReactionsStatus")
+                        .HasForeignKey("SocialMediaAPI.Domain.Entities.ReactionsStatus", "PostId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.Story", b =>
                 {
                     b.HasOne("SocialMediaAPI.Domain.Entities.AppUser", "User")
@@ -868,6 +927,9 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.Navigation("ChildComments");
 
                     b.Navigation("Reactions");
+
+                    b.Navigation("ReactionsStatus")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.Post", b =>
@@ -877,6 +939,9 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.Navigation("Media");
 
                     b.Navigation("Reactions");
+
+                    b.Navigation("ReactionsStatus")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.Story", b =>

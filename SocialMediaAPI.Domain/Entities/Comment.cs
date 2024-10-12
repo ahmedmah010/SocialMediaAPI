@@ -21,6 +21,7 @@ namespace SocialMediaAPI.Domain.Entities
         public virtual Comment ParentComment {  get; set; }
         public virtual ICollection<Comment> ChildComments { get; set; } = new HashSet<Comment>();
         public virtual ICollection<CommentReaction> Reactions { get; set; } = new HashSet<CommentReaction>();
+        public virtual ReactionsStatus ReactionsStatus { get; set; }
 
     }
 }

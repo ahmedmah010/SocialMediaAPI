@@ -29,7 +29,13 @@ namespace SocialMediaAPI.Infrastructure.EntityTypeConfiguration
                 .WithOne(pr => pr.Post)
                 .HasForeignKey(pr=>pr.PostId)
                 .HasPrincipalKey(p=> p.Id)
-                .OnDelete(DeleteBehavior.NoAction); //Configure deletetion manually, as EF sees the ProductReaction and CommentReaction as One table (they're actually one table due to the TPH) which causes the cyclic cascade paths error
+                .OnDelete(DeleteBehavior.NoAction); // Configure deletetion manually, as EF sees the ProductReaction and CommentReaction as One table (they're actually one table due to the TPH) which causes the cyclic cascade paths error
+            builder
+              .HasOne(p => p.ReactionsStatus)
+              .WithOne(rs => rs.Post)
+              .HasForeignKey<ReactionsStatus>(rs => rs.PostId)
+              .HasPrincipalKey<Post>(p => p.Id)
+              .OnDelete(DeleteBehavior.NoAction); // Configure deletetion manually, cannot delete the same entry from two different sources (comment, post)
             builder
                 .HasMany(p => p.Media)
                 .WithOne(ph => ph.Post)

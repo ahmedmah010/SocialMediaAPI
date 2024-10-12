@@ -8,6 +8,6 @@ namespace SocialMediaAPI.Domain.Enums
 {
     public enum ReactionType
     {
-        Like, Haha, Angry, Wow
+        None, Like, Haha, Angry, Love
     }
 }

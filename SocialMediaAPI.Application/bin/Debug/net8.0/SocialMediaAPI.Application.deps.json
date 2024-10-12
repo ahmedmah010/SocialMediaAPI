@@ -338,12 +338,18 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
         },
         "runtime": {
-          "SocialMediaAPI.Domain.dll": {}
+          "SocialMediaAPI.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "SocialMediaAPI.Shared/1.0.0": {
         "runtime": {
-          "SocialMediaAPI.Shared.dll": {}
+          "SocialMediaAPI.Shared.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

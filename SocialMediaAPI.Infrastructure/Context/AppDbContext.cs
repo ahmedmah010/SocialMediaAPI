@@ -26,6 +26,7 @@ namespace SocialMediaAPI.Infrastructure.Context
         public DbSet<UserRelationship> UserRelationships { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<WorkPlace> WorkPlaces { get; set; }
+        public DbSet<ReactionsStatus> ReactionsStatuses { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
