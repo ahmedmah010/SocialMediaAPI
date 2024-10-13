@@ -57,29 +57,78 @@ namespace SocialMediaAPI.Application.Services
                 reactionsStatus.UpdateTotalReactionsCount();
             }
         }
+        /*
+        public async Task<ResponseDTO> AddReactionAsync<TEntity,TReaction>(TEntity entity, 
+            TReaction entityReaction,
+            ReactionType entityReactionType,
+            ReactionType reactionType,
+            IRepository<TEntity> _entityRepo,
+            Func<TEntity, ReactionsStatus> GetReactionStatus,
+            Func<TEntity, ICollection<TReaction>> GetReactions,
+            Func<TReaction> CreateReaction,
+            Action<ReactionType> ChangeCurrentReactionType
+            ) 
+            where TReaction : class
+            where TEntity : class
+        {
+            var reactionStatus = GetReactionStatus(entity);
+            var reactions = GetReactions(entity);
+            using (var transaction = await _entityRepo.BeginTransactionAsync())
+            {
+                try
+                {
+                    if (entityReaction == null) // First time this particular current user reacts 
+                    {
+                        entityReaction = CreateReaction();
+                        reactions.Add(entityReaction);
+                        UpdateReactionsStatus(reactionStatus, reactionType, ReactionType.None);
+                        await _entityRepo.SaveChangesAsync();
+                        await transaction.CommitAsync();
+                        return await _responseService.GenerateSuccessResponseAsync($"{typeof(TEntity).Name} reaction has been added successfully");
+                    }
+                    else // User has already reacted, maybe he is trying to change the reaction
+                    {
+                        if (entityReactionType == reactionType)
+                        {
+                            return await _responseService.GenerateErrorResponseAsync($"You've already reacted to this {typeof(TEntity).Name.ToLower()}");
+                        }
+                        UpdateReactionsStatus(GetReactionStatus(entity), reactionType, entityReactionType);
+                        //entityReaction.ReactionType = reactionType;
+                        ChangeCurrentReactionType(reactionType);
+                        await transaction.CommitAsync();
+                        await _entityRepo.SaveChangesAsync();
+                        return await _responseService.GenerateSuccessResponseAsync($"{typeof(TEntity).Name} reaction has been added successfully");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return await _responseService.GenerateErrorResponseAsync(ex.Message);
+                }
+            }
+        }*/
         public async Task<ResponseDTO> AddCommentReactionAsync(int commentId, ReactionType reactionType)
         {
             //check if comment exists
             //check if a reaction to this comment with the current user id is null then create a new reaction object and fill the required info
             //if the reaction exists, chec if the type has changed then just update it
-            Comment comment = await _commentRepo.GetByIdAsync(commentId);
+            int currentUserId = await _currentUserService.GetCurrentUserIdAsync();
+            Comment comment = await _commentRepo.FindWithIncludesAsync(c=>c.Id == commentId, c=>c.ReactionsStatus, c=>c.Reactions.Where(cr=>cr.UserId==currentUserId));
             if (comment == null)
             {
                 return await _responseService.GenerateErrorResponseAsync("Comment doesn't exist");
             }
-            int currentUserId = await _currentUserService.GetCurrentUserIdAsync();
-            ReactionsStatus reactionStatus = await _reactionsStatusRepo.FirstOrDefaultAsync(rs => rs.CommentId == commentId);
-            CommentReaction commentReaction = await _commentReactionRepo.FirstOrDefaultAsync(cr => cr.UserId == currentUserId && cr.CommentId == commentId);
-            using (var transaction = await _commentReactionRepo.BeginTransactionAsync())
+            CommentReaction? commentReaction = comment.Reactions.FirstOrDefault();
+            using (var transaction = await _commentRepo.BeginTransactionAsync())
             {
                 try
                 {
                     if (commentReaction == null) // First time this particular current user reacts 
                     {
                         commentReaction = new CommentReaction { CommentId = commentId, UserId = currentUserId, ReactionType = reactionType };
-                        await _commentReactionRepo.AddAsync(commentReaction);
-                        UpdateReactionsStatus(reactionStatus, reactionType, ReactionType.None);
-                        await _reactionsStatusRepo.SaveChangesAsync();
+                        comment.Reactions.Add(commentReaction);
+                        UpdateReactionsStatus(comment.ReactionsStatus, reactionType, ReactionType.None);
+                        await _commentRepo.SaveChangesAsync();
                         await transaction.CommitAsync();
                         return await _responseService.GenerateSuccessResponseAsync("Comment reaction has been added successfully");
                     }
@@ -89,10 +138,10 @@ namespace SocialMediaAPI.Application.Services
                         {
                             return await _responseService.GenerateErrorResponseAsync("You've already reacted to this comment");
                         }
-                        UpdateReactionsStatus(reactionStatus, reactionType, commentReaction.ReactionType);
+                        UpdateReactionsStatus(comment.ReactionsStatus, reactionType, commentReaction.ReactionType);
                         commentReaction.ReactionType = reactionType;
-                        await _reactionsStatusRepo.SaveChangesAsync();
                         await transaction.CommitAsync();
+                        await _commentRepo.SaveChangesAsync();
                         return await _responseService.GenerateSuccessResponseAsync("Comment reaction has been added successfully");
                     }
                 }
@@ -105,25 +154,93 @@ namespace SocialMediaAPI.Application.Services
             }
         }
 
-        public Task<ResponseDTO> AddPostReaction(int postId, ReactionType reactionType)
+        public async Task<ResponseDTO> AddPostReactionAsync(int postId, ReactionType reactionType)
         {
-            throw new NotImplementedException();
+            int currentUserId = await _currentUserService.GetCurrentUserIdAsync();
+            Post post = await _postRepo.FindWithIncludesAsync(p => p.Id == postId, c => c.ReactionsStatus, c => c.Reactions.Where(pr => pr.UserId == currentUserId));
+            if (post == null)
+            {
+                return await _responseService.GenerateErrorResponseAsync("Post doesn't exist");
+            }
+            PostReaction? postReaction = post.Reactions.FirstOrDefault();
+            using (var transaction = await _postRepo.BeginTransactionAsync())
+            {
+                try
+                {
+                    if (postReaction == null) // First time this particular current user reacts 
+                    {
+                        postReaction = new PostReaction { PostId = postId, UserId = currentUserId, ReactionType = reactionType };
+                        post.Reactions.Add(postReaction);
+                        UpdateReactionsStatus(post.ReactionsStatus, reactionType, ReactionType.None);
+                        await _commentRepo.SaveChangesAsync();
+                        await transaction.CommitAsync();
+                        return await _responseService.GenerateSuccessResponseAsync("Post reaction has been added successfully");
+                    }
+                    else // User has already reacted, maybe he is trying to change the reaction
+                    {
+                        if (postReaction.ReactionType == reactionType)
+                        {
+                            return await _responseService.GenerateErrorResponseAsync("You've already reacted to this post");
+                        }
+                        UpdateReactionsStatus(post.ReactionsStatus, reactionType, postReaction.ReactionType);
+                        postReaction.ReactionType = reactionType;
+                        await transaction.CommitAsync();
+                        await _postRepo.SaveChangesAsync();
+                        return await _responseService.GenerateSuccessResponseAsync("Post reaction has been added successfully");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return await _responseService.GenerateErrorResponseAsync(ex.Message);
+                }
+
+            }
+        }
+        private void ExtractReactions(ReactionsStatus reactionsStatus, List<ReactionType> reactions)
+        {
+            if (reactionsStatus.HahaCount > 0)
+            {
+                reactions.Add(ReactionType.Haha);
+            }
+            if (reactionsStatus.AngryCount > 0)
+            {
+                reactions.Add(ReactionType.Angry);
+            }
+            if (reactionsStatus.LikeCount > 0)
+            {
+                reactions.Add(ReactionType.Like);
+            }
+            if (reactionsStatus.LoveCount > 0)
+            {
+                reactions.Add(ReactionType.Love);
+            }
         }
 
-        public async Task<ResponseDTO> GetCommentReactions(int commentId)
+        public async Task<ResponseDTO> GetCommentReactionsAsync(int commentId)
         {
             Comment comment = await _commentRepo.GetByIdAsync(commentId);
             if(comment == null)
             {
                 return await _responseService.GenerateErrorResponseAsync("Comment not found");
             }
-
-            throw new NotImplementedException();
+            ReactionsStatus reactionsStatus = await _reactionsStatusRepo.FirstOrDefaultAsync(rs=>rs.CommentId == commentId);
+            List<ReactionType> reactions = new List<ReactionType>();
+            ExtractReactions(reactionsStatus, reactions);
+            return await _responseService.GenerateSuccessResponseAsync(data:reactions);
         }
 
-        public Task<ResponseDTO> GetPostReactions(int postId)
+        public async Task<ResponseDTO> GetPostReactionsAsync(int postId)
         {
-            throw new NotImplementedException();
+            Post post = await _postRepo.GetByIdAsync(postId);
+            if (post == null)
+            {
+                return await _responseService.GenerateErrorResponseAsync("Post not found");
+            }
+            ReactionsStatus reactionsStatus = await _reactionsStatusRepo.FirstOrDefaultAsync(rs => rs.PostId == postId);
+            List<ReactionType> reactions = new List<ReactionType>();
+            ExtractReactions(reactionsStatus, reactions);
+            return await _responseService.GenerateSuccessResponseAsync(data: reactions);
         }
         public async Task<ResponseDTO> RemoveReactionAsync(int id)
         {
@@ -161,8 +278,8 @@ namespace SocialMediaAPI.Application.Services
                     {
                         _commentReactionRepo.Remove((CommentReaction)reaction);
                     }
-                    await _reactionsStatusRepo.SaveChangesAsync();
                     await transaction.CommitAsync();
+                    await _reactionsStatusRepo.SaveChangesAsync();
                     return await _responseService.GenerateSuccessResponseAsync("Reaction removed");
                 }
                 catch (Exception ex)

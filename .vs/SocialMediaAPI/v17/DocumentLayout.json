@@ -34,8 +34,7 @@
               "RelativeToolTip": "SocialMediaAPI.Domain\\Entities\\Reaction.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAAACYAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-12T00:21:24.016Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-12T00:21:24.016Z"
             },
             {
               "$type": "Document",
@@ -45,7 +44,7 @@
               "RelativeDocumentMoniker": "SocialMediaAPI.Application\\Services\\ReactionService.cs",
               "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Services\\ReactionService.cs",
               "RelativeToolTip": "SocialMediaAPI.Application\\Services\\ReactionService.cs",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAmwHcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAwwGwAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-11T21:23:47.402Z",
               "EditorCaption": ""
@@ -58,7 +57,7 @@
               "RelativeDocumentMoniker": "SocialMediaAPI.Application\\Interfaces\\Services\\IReactionService.cs",
               "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Interfaces\\Services\\IReactionService.cs",
               "RelativeToolTip": "SocialMediaAPI.Application\\Interfaces\\Services\\IReactionService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-11T20:20:29.777Z",
               "EditorCaption": ""

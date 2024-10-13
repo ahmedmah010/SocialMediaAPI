@@ -13,7 +13,7 @@ namespace SocialMediaAPI.Application.Interfaces.Services
         Task<ResponseDTO> AddPostReactionAsync(int postId, ReactionType reactionType);
         Task<ResponseDTO> AddCommentReactionAsync(int commentId, ReactionType reactionType);
         Task<ResponseDTO> RemoveReactionAsync(int id);
-        Task<ResponseDTO> GetPostReactions(int postId);
-        Task<ResponseDTO> GetCommentReactions(int commentId);
+        Task<ResponseDTO> GetPostReactionsAsync(int postId);
+        Task<ResponseDTO> GetCommentReactionsAsync(int commentId);
     }
 }
