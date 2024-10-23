@@ -57,56 +57,6 @@ namespace SocialMediaAPI.Application.Services
                 reactionsStatus.UpdateTotalReactionsCount();
             }
         }
-        /*
-        public async Task<ResponseDTO> AddReactionAsync<TEntity,TReaction>(TEntity entity, 
-            TReaction entityReaction,
-            ReactionType entityReactionType,
-            ReactionType reactionType,
-            IRepository<TEntity> _entityRepo,
-            Func<TEntity, ReactionsStatus> GetReactionStatus,
-            Func<TEntity, ICollection<TReaction>> GetReactions,
-            Func<TReaction> CreateReaction,
-            Action<ReactionType> ChangeCurrentReactionType
-            ) 
-            where TReaction : class
-            where TEntity : class
-        {
-            var reactionStatus = GetReactionStatus(entity);
-            var reactions = GetReactions(entity);
-            using (var transaction = await _entityRepo.BeginTransactionAsync())
-            {
-                try
-                {
-                    if (entityReaction == null) // First time this particular current user reacts 
-                    {
-                        entityReaction = CreateReaction();
-                        reactions.Add(entityReaction);
-                        UpdateReactionsStatus(reactionStatus, reactionType, ReactionType.None);
-                        await _entityRepo.SaveChangesAsync();
-                        await transaction.CommitAsync();
-                        return await _responseService.GenerateSuccessResponseAsync($"{typeof(TEntity).Name} reaction has been added successfully");
-                    }
-                    else // User has already reacted, maybe he is trying to change the reaction
-                    {
-                        if (entityReactionType == reactionType)
-                        {
-                            return await _responseService.GenerateErrorResponseAsync($"You've already reacted to this {typeof(TEntity).Name.ToLower()}");
-                        }
-                        UpdateReactionsStatus(GetReactionStatus(entity), reactionType, entityReactionType);
-                        //entityReaction.ReactionType = reactionType;
-                        ChangeCurrentReactionType(reactionType);
-                        await transaction.CommitAsync();
-                        await _entityRepo.SaveChangesAsync();
-                        return await _responseService.GenerateSuccessResponseAsync($"{typeof(TEntity).Name} reaction has been added successfully");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    return await _responseService.GenerateErrorResponseAsync(ex.Message);
-                }
-            }
-        }*/
         public async Task<ResponseDTO> AddCommentReactionAsync(int commentId, ReactionType reactionType)
         {
             //check if comment exists

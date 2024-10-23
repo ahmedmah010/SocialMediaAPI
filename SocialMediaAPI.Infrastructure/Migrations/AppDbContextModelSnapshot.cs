@@ -279,7 +279,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.Education", b =>
@@ -307,7 +307,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("ProfileId");
 
-                    b.ToTable("Educations");
+                    b.ToTable("Educations", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.FriendRequest", b =>
@@ -333,7 +333,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("RequesterId");
 
-                    b.ToTable("FriendRequest");
+                    b.ToTable("FriendRequest", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.FriendShip", b =>
@@ -348,7 +348,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FriendShips");
+                    b.ToTable("FriendShips", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.Post", b =>
@@ -375,7 +375,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.PostMedia", b =>
@@ -397,7 +397,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("PostMedia");
+                    b.ToTable("PostMedia", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.ReactionBase", b =>
@@ -467,7 +467,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[PostId] IS NOT NULL");
 
-                    b.ToTable("ReactionsStatuses");
+                    b.ToTable("ReactionsStatuses", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.Story", b =>
@@ -496,7 +496,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Stories");
+                    b.ToTable("Stories", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.StoryViewer", b =>
@@ -514,7 +514,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("ViewerId");
 
-                    b.ToTable("StoryViewers");
+                    b.ToTable("StoryViewers", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.UserProfile", b =>
@@ -539,7 +539,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Profiles");
+                    b.ToTable("Profiles", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.UserRelationship", b =>
@@ -576,7 +576,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
                     b.HasIndex("RequesterId")
                         .IsUnique();
 
-                    b.ToTable("UserRelationships");
+                    b.ToTable("UserRelationships", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.WorkPlace", b =>
@@ -608,7 +608,7 @@ namespace SocialMediaAPI.Infrastructure.Migrations
 
                     b.HasIndex("ProfileId");
 
-                    b.ToTable("WorkPlaces");
+                    b.ToTable("WorkPlaces", (string)null);
                 });
 
             modelBuilder.Entity("SocialMediaAPI.Domain.Entities.CommentReaction", b =>

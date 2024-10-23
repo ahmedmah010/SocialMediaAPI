@@ -47,6 +47,7 @@ namespace SocialMediaAPI.Application.Services
             }
             int currentUserId = await _currentUserService.GetCurrentUserIdAsync();
             Comment newComment = new Comment { Content = content, Date = DateTime.Now, PostId = postId, UserId = currentUserId };
+            newComment.ReactionsStatus = new ReactionsStatus();
             await _commentRepo.AddAsync(newComment);
             await _commentRepo.SaveChangesAsync();
             return await _responseService.GenerateSuccessResponseAsync("Comment added successfully");
@@ -76,6 +77,7 @@ namespace SocialMediaAPI.Application.Services
                 Content = content,
                 Date = DateTime.Now
             };
+            newChildComment.ReactionsStatus = new ReactionsStatus();
             await _commentRepo.AddAsync(newChildComment);
             await _commentRepo.SaveChangesAsync();
             return await _responseService.GenerateSuccessResponseAsync("Reply added successfully");
@@ -125,18 +127,41 @@ namespace SocialMediaAPI.Application.Services
             {
                 return await _responseService.GenerateErrorResponseAsync("Invalid operation");
             }
-            // Recursive CTE query to delete the parent comment with all its descendants (if exist)
-            string query = @"with descendants as (
+            using (var transaction = await _commentRepo.BeginTransactionAsync())
+            {
+                try
+                {
+                    // Recursive CTE query to delete the parent comment with all its descendants (if exist), also removes the corresponding Reactions and ReactionStatus
+                    string query = @"with descendants as (
                                 select Id from comments where Id = {0} 
                                 union all
                                 select c.Id 
                                 from comments c inner join descendants d
                                 on c.ParentCommentId = d.Id
                             )
+                            -- Create a temp table to store the values 
+                            select * into #TempIds from descendants
+                            -- Delete reactions associated with the comments
+                            delete from Reactions
+                            where CommentId in (select id from #TempIds)
+                            -- Delete ReactionsStatuses associated with the comments
+                            delete from ReactionsStatuses
+                            where CommentId in (select id from #TempIds)
+                            -- Delete the comments themselves
                             delete from comments
-                            where id in (select id from descendants)";
-            await _commentRepo.ExecuteSqlRawAsync(query, comment.Id);
-            return await _responseService.GenerateSuccessResponseAsync("Comment deleted successfully");
+                            where id in (select id from #TempIds)
+                            -- Clean up the temp table
+                            DROP TABLE #TempIds";
+                    await _commentRepo.ExecuteSqlRawAsync(query, comment.Id);
+                    await transaction.CommitAsync();
+                    return await _responseService.GenerateSuccessResponseAsync("Comment deleted successfully");
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return await _responseService.GenerateErrorResponseAsync(ex.Message);
+                }
+            }
         }
         // This method is not used, as it is replaced with a raw SQL query for performance and efficiency.
         // The method is works as expected, it was implemented for learning purposes

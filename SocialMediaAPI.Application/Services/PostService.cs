@@ -206,6 +206,7 @@ namespace SocialMediaAPI.Application.Services
                         Content = postDTO.Content,
                         UserId = await _currentUserService.GetCurrentUserIdAsync()
                     };
+                    newPost.ReactionsStatus = new ReactionsStatus();
                     await _postRepo.AddAsync(newPost);
                     await _postRepo.SaveChangesAsync();
                     postDTO.Id = newPost.Id;
@@ -332,6 +333,22 @@ namespace SocialMediaAPI.Application.Services
                     {
                         Directory.Delete(postMediaPath, true);
                     }
+                    // First manually remove the associated Reactions and ReactionsStatuses then
+                    // Delete all the ReactionStatuses and Reactions corresponding to the comments on this post
+                    var query = @"
+                            delete from Reactions where PostId = {0};
+                            delete from ReactionsStatuses where postId = {0};
+                            select id into #TempIds
+                            from comments
+                            where postid = {0} 
+
+                            delete from Reactions
+                            where commentid in (select * from #TempIds)
+                            delete from ReactionsStatuses
+                            where commentid in (select * from #TempIds)
+                            DROP TABLE #TempIds";
+                    await _postRepo.ExecuteSqlRawAsync(query, post.Id);
+                    // Delete the post itself and also the comments associated to it will be automatically deleted (delte on cascade)
                     _postRepo.Remove(post);
                     await _postRepo.SaveChangesAsync();
                     await transaction.CommitAsync();
