@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nPDwWfZ0LLM=",
+  "dgSpecHash": "LpaI1ZiJF+Q=",
   "success": true,
-  "projectFilePath": "E:\\SocialMediaAPI\\SocialMeidaAPI\\SocialMeidaAPI.csproj",
+  "projectFilePath": "E:\\SocialMediaAPI\\SocialMeidaAPI\\SocialMediaAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\backu\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\backu\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",

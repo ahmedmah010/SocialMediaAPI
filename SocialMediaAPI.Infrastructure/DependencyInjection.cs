@@ -25,6 +25,7 @@ namespace SocialMediaAPI.Infrastructure
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IFriendRequestRepo, FriendRequestRepo>();
             services.AddScoped<IFriendShipRepo, FriendShipRepo>();
+            services.AddScoped<IChatRepo, ChatRepo>();
             return services;
         }
     }

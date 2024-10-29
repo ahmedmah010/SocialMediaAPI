@@ -4677,9 +4677,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\SocialMediaAPI\\SocialMeidaAPI\\SocialMeidaAPI.csproj",
-      "projectName": "SocialMeidaAPI",
-      "projectPath": "E:\\SocialMediaAPI\\SocialMeidaAPI\\SocialMeidaAPI.csproj",
+      "projectUniqueName": "E:\\SocialMediaAPI\\SocialMeidaAPI\\SocialMediaAPI.csproj",
+      "projectName": "SocialMediaAPI",
+      "projectPath": "E:\\SocialMediaAPI\\SocialMeidaAPI\\SocialMediaAPI.csproj",
       "packagesPath": "C:\\Users\\backu\\.nuget\\packages\\",
       "outputPath": "E:\\SocialMediaAPI\\SocialMeidaAPI\\obj\\",
       "projectStyle": "PackageReference",

@@ -4,7 +4,7 @@ using SocialMediaAPI.Application.DTOs.Response;
 using SocialMediaAPI.Application.Interfaces.Services;
 using SocialMediaAPI.Domain.Enums;
 
-namespace SocialMeidaAPI.Controllers
+namespace SocialMediaAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

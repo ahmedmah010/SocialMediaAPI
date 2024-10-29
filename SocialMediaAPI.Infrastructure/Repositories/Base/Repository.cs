@@ -61,6 +61,7 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
             }
             return await query.FirstOrDefaultAsync();
         }
+        // I guess I have never used this method
         public async Task<T?> NestedInclude(Func<IQueryable<T>, IIncludableQueryable<T, object>> includes) // Include().ThenInclude()
         {
             _query = includes(_query); // includes is a delegate (a pointer to a function)
@@ -85,6 +86,10 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
         public async Task<int> CountAsync()
         {
             return await _context.Set<T>().CountAsync();
+        }
+        public async Task<int> CountAsync(Expression<Func<T,bool>> predicate)
+        {
+            return await _context.Set<T>().CountAsync(predicate);
         }
         public async Task<bool> RemoveByIdAsync(int id)
         {
@@ -136,6 +141,23 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
         {
             return await _query.SingleOrDefaultAsync();
         }
-
+        public async Task<List<T>> ToListAsync()
+        {
+            return await _query.ToListAsync();
+        }
+        public IEnumerable<NewEntity> Select<NewEntity>(Func<T,NewEntity> expression)
+        { 
+            return _query.Select(expression);
+        }
+        public IRepository<T> OrderBy(Expression<Func<T,object>> expression)
+        {
+            _query = _query.OrderBy(expression);
+            return this;
+        }
+        public IRepository<T> OrderByDesc(Expression<Func<T, object>> expression)
+        {
+            _query = _query.OrderByDescending(expression);
+            return this;
+        }
     }
 }

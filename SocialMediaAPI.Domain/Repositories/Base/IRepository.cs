@@ -31,8 +31,12 @@ namespace SocialMediaAPI.Domain.Repositories.Base
         IRepository<T> Skip(int count);
 
         IRepository<T> Take(int count);
-
+        Task<List<T>> ToListAsync();
+        IEnumerable<NewEntity> Select<NewEntity>(Func<T, NewEntity> expression);
+        IRepository<T> OrderBy(Expression<Func<T, object>> expression);
+        IRepository<T> OrderByDesc(Expression<Func<T, object>> expression);
         Task<int> CountAsync();
+        Task<int> CountAsync(Expression<Func<T, bool>> predicate);
         Task<T> SingleOrDefaultAsync();
         Task<IDbContextTransaction> BeginTransactionAsync();
         //IQueryBuilder<T> QueryBuilder();

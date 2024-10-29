@@ -1,12 +1,37 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\SocialMediaAPI\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|e:\\socialmediaapi\\socialmediaapi.application\\services\\messageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|solutionrelative:socialmediaapi.application\\services\\messageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MessageService.cs",
+              "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Services\\MessageService.cs",
+              "RelativeDocumentMoniker": "SocialMediaAPI.Application\\Services\\MessageService.cs",
+              "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Services\\MessageService.cs",
+              "RelativeToolTip": "SocialMediaAPI.Application\\Services\\MessageService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-28T16:34:29.254Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

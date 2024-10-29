@@ -1,17 +1,17 @@
 {
   "Version": 1,
-  "Hash": "8z6+8FpcLQSZ2dLKPr7iMkejhk69UAaMAz6m6CnHFhE=",
-  "Source": "SocialMeidaAPI",
-  "BasePath": "_content/SocialMeidaAPI",
+  "Hash": "RLMw7ARi57UY/iI17htGF1EWKicRNzDwckRZ4K0Ep4w=",
+  "Source": "SocialMediaAPI",
+  "BasePath": "_content/SocialMediaAPI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [
     {
-      "Name": "SocialMeidaAPI\\wwwroot",
-      "Source": "SocialMeidaAPI",
+      "Name": "SocialMediaAPI\\wwwroot",
+      "Source": "SocialMediaAPI",
       "ContentRoot": "E:\\SocialMediaAPI\\SocialMeidaAPI\\wwwroot\\",
-      "BasePath": "_content/SocialMeidaAPI",
+      "BasePath": "_content/SocialMediaAPI",
       "Pattern": "**"
     }
   ],

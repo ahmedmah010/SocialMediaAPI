@@ -5,7 +5,7 @@ using SocialMediaAPI.Application.DTOs;
 using SocialMediaAPI.Application.DTOs.Response;
 using SocialMediaAPI.Application.Interfaces.Services;
 
-namespace SocialMeidaAPI.Controllers
+namespace SocialMediaAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
