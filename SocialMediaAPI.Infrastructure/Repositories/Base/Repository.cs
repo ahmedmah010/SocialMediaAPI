@@ -83,6 +83,10 @@ namespace SocialMediaAPI.Infrastructure.Repositories.Base
         {
             return await _context.Database.ExecuteSqlRawAsync(query, objects);
         }
+        public async Task<List<T>> FromSqlRawAsync(string query, params object[] objects)
+        {
+            return await _context.Set<T>().FromSqlRaw(query, objects).ToListAsync();
+        }
         public async Task<int> CountAsync()
         {
             return await _context.Set<T>().CountAsync();

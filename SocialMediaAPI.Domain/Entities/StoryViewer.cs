@@ -12,7 +12,7 @@ namespace SocialMediaAPI.Domain.Entities
         public int ViewerId { get; set; }
         public DateTime ViewedAt { get; set; }
 
-        //Navigation Properties
+        // Navigation Properties
         public virtual AppUser Viewer { get; set; }
         public virtual Story Story { get; set; }
     }

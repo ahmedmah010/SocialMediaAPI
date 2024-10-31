@@ -16,6 +16,7 @@ namespace SocialMediaAPI.Domain.Repositories.Base
         Task<bool> RemoveByIdAsync(int id);
         void Remove(T entity);
         Task<int> ExecuteSqlRawAsync(string query, params object[] objects);
+        Task<List<T>> FromSqlRawAsync(string query, params object[] objects);
         Task UpdateAsync(T entity);
         Task AddAsync(T entity);
         Task SaveChangesAsync();

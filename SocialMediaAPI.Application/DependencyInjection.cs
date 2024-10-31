@@ -28,6 +28,7 @@ namespace SocialMediaAPI.Application
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IReactionService,ReactionService>();
             services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IStoryService,StoryService>();
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddValidatorsFromAssemblyContaining<UserRegisterValidator>();
             return services;

@@ -14,7 +14,7 @@ namespace SocialMediaAPI.Domain.Entities
         public string Content { get; set; }
         public string Media {  get; set; }
 
-        //Navigation Properties
+        // Navigation Properties
         public virtual AppUser User { get; set; }
         public virtual ICollection<StoryViewer> Viewers { get; set; } = new HashSet<StoryViewer>();
 

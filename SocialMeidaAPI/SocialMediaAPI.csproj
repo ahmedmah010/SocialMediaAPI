@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\StoryMedia\" />
     <Folder Include="wwwroot\PostMedia\" />
   </ItemGroup>
 
