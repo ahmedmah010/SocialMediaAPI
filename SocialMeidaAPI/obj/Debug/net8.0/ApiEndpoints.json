@@ -471,5 +471,78 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI.Controllers.StoriesController",
+    "Method": "AddStoryAsync",
+    "RelativePath": "api/Stories",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Content",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Media",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI.Controllers.StoriesController",
+    "Method": "GetFriendsStoriesAsync",
+    "RelativePath": "api/Stories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI.Controllers.StoriesController",
+    "Method": "RemoveAllStoriesAsync",
+    "RelativePath": "api/Stories",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI.Controllers.StoriesController",
+    "Method": "ShowStoryAsync",
+    "RelativePath": "api/Stories/{storyId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "storyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SocialMediaAPI.Controllers.StoriesController",
+    "Method": "RemoveStoryAsync",
+    "RelativePath": "api/Stories/{storyId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "storyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

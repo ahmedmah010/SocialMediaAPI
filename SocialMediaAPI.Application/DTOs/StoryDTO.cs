@@ -9,7 +9,7 @@ namespace SocialMediaAPI.Application.DTOs
 {
     public class StoryDTO
     {
-        public string Content {  get; set; }
-        public IFormFile Media {  get; set; }
+        public string Content {  get; set; } = string.Empty;
+        public IFormFile? Media {  get; set; }
     }
 }

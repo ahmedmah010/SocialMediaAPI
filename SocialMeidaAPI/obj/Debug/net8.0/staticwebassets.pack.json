@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "E:\\SocialMediaAPI\\SocialMeidaAPI\\wwwroot\\StoryMedia\\67530c8c-bc32-4f09-b39a-c1372569db87",
+      "PackagePath": "staticwebassets\\StoryMedia"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.SocialMediaAPI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.SocialMediaAPI.props",
+      "PackagePath": "build\\SocialMediaAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.SocialMediaAPI.props",
+      "PackagePath": "buildMultiTargeting\\SocialMediaAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.SocialMediaAPI.props",
+      "PackagePath": "buildTransitive\\SocialMediaAPI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

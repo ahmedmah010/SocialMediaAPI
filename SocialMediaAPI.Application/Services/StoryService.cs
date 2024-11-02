@@ -22,6 +22,7 @@ namespace SocialMediaAPI.Application.Services
         private readonly ICurrentUserService _currentUserService;
         private readonly IRepository<Story> _storyRepo;
         private readonly IStoryRepo _storySpecificRepo;
+        private readonly IFriendShipRepo _friendShipSpecificRepo;
         private readonly IRepository<AppUser> _appUserRepo;
         private readonly IRepository<StoryViewer> _storyViewerRepo;
         private readonly IValidator<StoryDTO> _storyDtoValidator;
@@ -33,7 +34,8 @@ namespace SocialMediaAPI.Application.Services
             IRepository<AppUser> appUserRepo,
             IValidator<StoryDTO> storyDtoValidator,
             IRepository<StoryViewer> storyViewerRepo,
-            IStoryRepo storySpecificRepo)
+            IStoryRepo storySpecificRepo,
+            IFriendShipRepo friendShipSpecificRepo)
         {
             _responseService = responseService;
             _currentUserService = currentUserService;
@@ -43,6 +45,7 @@ namespace SocialMediaAPI.Application.Services
             _wwwrootPath = Path.GetFullPath("wwwroot");
             _storyViewerRepo = storyViewerRepo;
             _storySpecificRepo = storySpecificRepo;
+            _friendShipSpecificRepo = friendShipSpecificRepo;
         }
 
         /* Helper Methods */
@@ -78,24 +81,23 @@ namespace SocialMediaAPI.Application.Services
             }
             return await _responseService.GenerateErrorResponseAsync("File not found");
         }
-        private async Task<ResponseDTO> ViewStoryAsync(int storyId, int viewerId)
+        private async Task<ResponseDTO> ViewStoryAsync(int storyId)
         {
             Story? story = await _storySpecificRepo.GetStoryWithUserAndViewersWithUsers(storyId);
             if (story == null)
             {
                 return await _responseService.GenerateErrorResponseAsync("Story not found");
             }
-            AppUser viewer = await _appUserRepo.GetByIdAsync(viewerId);
-            if (viewer == null)
+            var currentUserId = await _currentUserService.GetCurrentUserIdAsync();
+            if (story.UserId != currentUserId) // So that the current user won't be registered as a viewer for his own story
             {
-                return await _responseService.GenerateErrorResponseAsync("Viewer not found");
-            }
-            StoryViewer? storyViewer = story.Viewers.Where(sv => sv.StoryId == storyId && sv.ViewerId == viewerId).FirstOrDefault();
-            if (storyViewer == null)
-            {
-                StoryViewer newView = new StoryViewer { StoryId = story.Id, ViewedAt = DateTime.UtcNow, ViewerId = viewerId };
-                await _storyViewerRepo.AddAsync(newView);
-                await _storyViewerRepo.SaveChangesAsync();
+                StoryViewer? storyViewer = story.Viewers.Where(sv => sv.StoryId == storyId && sv.ViewerId == currentUserId).FirstOrDefault();
+                if (storyViewer == null)
+                {
+                    StoryViewer newView = new StoryViewer { StoryId = story.Id, ViewedAt = DateTime.UtcNow, ViewerId = currentUserId };
+                    await _storyViewerRepo.AddAsync(newView);
+                    await _storyViewerRepo.SaveChangesAsync();
+                }
             }
             return await _responseService.GenerateSuccessResponseAsync(data:story);
         }
@@ -113,7 +115,7 @@ namespace SocialMediaAPI.Application.Services
                 try
                 {
                     int currentUserId = await _currentUserService.GetCurrentUserIdAsync();
-                    Story newStory = new Story { Date = DateTime.UtcNow, UserId = currentUserId };
+                    Story newStory = new Story { Date = DateTime.UtcNow, UserId = currentUserId, Media = string.Empty, Content = string.Empty };
                     if (!string.IsNullOrEmpty(story.Content)) // Only content exists
                     {
                         newStory.Content = story.Content;
@@ -133,8 +135,8 @@ namespace SocialMediaAPI.Application.Services
                         newStory.Media = storeResponse.Data as string;
                     }
                     await _storyRepo.AddAsync(newStory);
-                    await transaction.CommitAsync();
                     await _storyRepo.SaveChangesAsync();
+                    await transaction.CommitAsync();
                     return await _responseService.GenerateSuccessResponseAsync("Story added successfully");
                 }
                 catch (Exception ex)
@@ -150,16 +152,18 @@ namespace SocialMediaAPI.Application.Services
         public async Task<ResponseDTO> GetFriendsStoriesAsync()
         {
             int currentUserId = await _currentUserService.GetCurrentUserIdAsync();
-            AppUser currentUser = await _appUserRepo.FindWithIncludesAsync(u => u.Id == currentUserId, u => u.Friends);
-            List<int> friendsIds = currentUser.Friends.Select(friendShip=>friendShip.FriendId==currentUserId?friendShip.UserId:friendShip.FriendId).ToList();
+            List<AppUser> currentUserFriends = _friendShipSpecificRepo.GetAllFriends(currentUserId).ToList();
+            List<int> friendsIds = currentUserFriends.Select(u=>u.Id).ToList();
+            friendsIds.Add(currentUserId); // So the sql query will include the current user stories
             if (friendsIds == null || friendsIds.Count == 0)
             {
                 return await _responseService.GenerateSuccessResponseAsync("User has no friends");
             }
-            var query = @"select * 
+            /*var query = @"select s.* 
                         from stories s inner join aspnetusers u
                         on s.userid in ({0}) and s.userid = u.id";
-            List<Story> friendsStories = await _storyRepo.FromSqlRawAsync(query,string.Join(",", friendsIds));
+            List<Story> friendsStories = await _storyRepo.FromSqlRawAsync(query,string.Join(",", friendsIds));*/
+            List<Story> friendsStories = await _storyRepo.Where(s=>friendsIds.Contains(s.UserId)).ToListAsync();
             var data = friendsStories
                 .Select(s => new StoryViewDTO
                 {
@@ -168,6 +172,7 @@ namespace SocialMediaAPI.Application.Services
                     Media = s.Media,
                     StoryId = s.Id,
                     UserFullName = s.User.FirstName + " " + s.User.LastName,
+                    UserId = s.UserId,
                     UserProfilePic = s.User.ProfilePic ?? string.Empty
                 }
                 );
@@ -194,8 +199,8 @@ namespace SocialMediaAPI.Application.Services
                         }
                         _storyRepo.Remove(story);
                     }
-                    await transaction.CommitAsync();
                     await _storyRepo.SaveChangesAsync();
+                    await transaction.CommitAsync();
                     return await _responseService.GenerateSuccessResponseAsync("Deleted all stories successfully");
                 }
                 catch (Exception ex)
@@ -232,8 +237,8 @@ namespace SocialMediaAPI.Application.Services
                         }
                     }
                     _storyRepo.Remove(story);
-                    await transaction.CommitAsync();
                     await _storyRepo.SaveChangesAsync();
+                    await transaction.CommitAsync();
                     return await _responseService.GenerateSuccessResponseAsync("Deleted successfully");
                 }
                 catch (Exception ex)
@@ -243,15 +248,15 @@ namespace SocialMediaAPI.Application.Services
                 }
             }
         }
-        public async Task<ResponseDTO> ShowStoryAsync(int storyId, int viewerId)
+        public async Task<ResponseDTO> ShowStoryAsync(int storyId)
         {
-            var viewResponse = await ViewStoryAsync(storyId, viewerId);
+            var viewResponse = await ViewStoryAsync(storyId);
             if(!viewResponse.Success)
             {
                 return viewResponse;
             }
             Story story = viewResponse.Data as Story;
-
+            int currentUserId = await _currentUserService.GetCurrentUserIdAsync();
             var storyData = new StoryViewDTO
             {
                 Content = story.Content,
@@ -259,24 +264,29 @@ namespace SocialMediaAPI.Application.Services
                 Media = story.Media,
                 StoryId = story.Id,
                 UserFullName = story.User.FirstName + " " + story.User.LastName,
+                UserId = story.UserId,
                 UserProfilePic = story.User.ProfilePic ?? string.Empty
             };
-            var data = new
+            if (story.UserId == currentUserId)
             {
-                storyInfo = storyData,
-                viewData = new
+                var data = new
                 {
-                    numberOfViews = story.Viewers.Count,
-                    viewersData = story.Viewers.Select(sv=> new
+                    storyInfo = storyData,
+                    viewData = new
                     {
-                        viewerFullName = sv.Viewer.FirstName + " " + sv.Viewer.LastName,
-                        viewerProfilePic = sv.Viewer.ProfilePic ?? string.Empty,
-                        viewedAt = sv.ViewedAt,
-                    })
-                }
+                        numberOfViews = story.Viewers.Count,
+                        viewersData = story.Viewers.Select(sv => new
+                        {
+                            viewerFullName = sv.Viewer.FirstName + " " + sv.Viewer.LastName,
+                            viewerProfilePic = sv.Viewer.ProfilePic ?? string.Empty,
+                            viewedAt = sv.ViewedAt,
+                        })
+                    }
 
-            };
-            return await _responseService.GenerateSuccessResponseAsync(data: data);
+                };
+                return await _responseService.GenerateSuccessResponseAsync(data: data);
+            }
+            return await _responseService.GenerateSuccessResponseAsync(data: storyData);
         }
     }
 }

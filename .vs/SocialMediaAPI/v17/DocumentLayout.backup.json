@@ -5,6 +5,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|e:\\socialmediaapi\\socialmediaapi.application\\services\\storyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|solutionrelative:socialmediaapi.application\\services\\storyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|e:\\socialmediaapi\\socialmediaapi.application\\interfaces\\services\\istoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{64ED23EA-1A60-4FBA-B200-E790C99F91CE}|SocialMediaAPI.Application\\SocialMediaAPI.Application.csproj|solutionrelative:socialmediaapi.application\\interfaces\\services\\istoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IStoryService.cs",
+              "DocumentMoniker": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Interfaces\\Services\\IStoryService.cs",
+              "RelativeDocumentMoniker": "SocialMediaAPI.Application\\Interfaces\\Services\\IStoryService.cs",
+              "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Interfaces\\Services\\IStoryService.cs",
+              "RelativeToolTip": "SocialMediaAPI.Application\\Interfaces\\Services\\IStoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T20:44:22.737Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -24,9 +41,9 @@
               "RelativeDocumentMoniker": "SocialMediaAPI.Application\\Services\\StoryService.cs",
               "ToolTip": "E:\\SocialMediaAPI\\SocialMediaAPI.Application\\Services\\StoryService.cs",
               "RelativeToolTip": "SocialMediaAPI.Application\\Services\\StoryService.cs",
-              "ViewState": "AgIAAOoAAAAAAAAAAAAAAAUBAAA0AAAAAAAAAA==",
+              "ViewState": "AgIAAJMAAAAAAAAAAAArwJwAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T17:54:55.63Z",
+              "WhenOpened": "2024-11-01T18:53:09.574Z",
               "EditorCaption": ""
             }
           ]

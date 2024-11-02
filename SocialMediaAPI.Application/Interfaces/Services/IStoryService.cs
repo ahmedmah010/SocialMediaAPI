@@ -12,7 +12,7 @@ namespace SocialMediaAPI.Application.Interfaces.Services
     {
         Task<ResponseDTO> AddStoryAsync(StoryDTO story);
         Task<ResponseDTO> GetFriendsStoriesAsync();
-        Task<ResponseDTO> ShowStoryAsync(int storyId, int viewerId);
+        Task<ResponseDTO> ShowStoryAsync(int storyId);
         Task<ResponseDTO> RemoveStoryAsync(int storyId);
         Task<ResponseDTO> RemoveAllStoriesAsync();
     }
